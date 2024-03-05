@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: sidecar-api
+  security:
+    username: <username>
+    password: <password>
+sidecar:
+  apiHost: <apihost>
+  #test를 위한 Token 설정
+  token: <token>
+  tokenKind: <token kind>
+
+
+logging:
+  level:
+    cloudfoundry-client:
+      wire: trace
+
+#logging:
+#  level:
+#    cloudfoundry-client: debug
+#logging:
+#  level:
+#    cloudfoundry-client:
+#      wire: trace
