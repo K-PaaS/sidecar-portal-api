@@ -6,6 +6,9 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Route;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RoutesServiceV3 extends Common {
     public CreateRouteResponse create(Route route, String token) {
@@ -78,33 +81,54 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public ListRoutesResponse list(String guid, String token) {
+    public ListRoutesResponse list(List<String> appGuids, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> paths, List<Integer> ports, List<String> spaceGuids, String token) {
+        appGuids = stringListNullCheck(appGuids);
+        domainGuids = stringListNullCheck(domainGuids);
+        hosts = stringListNullCheck(hosts);
+        orgGuids = stringListNullCheck(orgGuids);
+        paths = stringListNullCheck(paths);
+        spaceGuids = stringListNullCheck(spaceGuids);
+        ports = integerListNullCheck(ports);
+
         return cloudFoundryClient(tokenProvider(token))
                 .routesV3()
                 .list(ListRoutesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationIds(appGuids)
+                        .domainIds(domainGuids)
+                        .hosts(hosts)
+                        .organizationIds(orgGuids)
+                        .paths(paths)
+                        .ports(ports)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }
 
-    public ListRouteDestinationsResponse listDestinations(String guid, String token) {
+    public ListRouteDestinationsResponse listDestinations(String routeGuid, List<String> appGuids, String token) {
+        routeGuid = stringNullCheck(routeGuid);
+        appGuids = stringListNullCheck(appGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .routesV3()
                 .listDestinations(ListRouteDestinationsRequest
                         .builder()
-                        .routeId(guid)
+                        .routeId(routeGuid)
+                        .applicationIds(appGuids)
                         .build())
                 .block();
     }
 
-    public Void removeDestinations(String routeGuid, String destinationGuid, String token) {
+    public Void removeDestinations(String routeGuid, String appGuid, String token) {
+        List<String> appGuids = new ArrayList<>();
+        appGuids.add(appGuid);
+
         return cloudFoundryClient(tokenProvider(token))
                 .routesV3()
                 .removeDestinations(RemoveRouteDestinationsRequest
                         .builder()
                         .routeId(routeGuid)
-                        .destinationId(destinationGuid)
+                        .destinationId(listDestinations(routeGuid, appGuids, token).getDestinations().get(0).getDestinationId())
                         .build())
                 .block();
     }

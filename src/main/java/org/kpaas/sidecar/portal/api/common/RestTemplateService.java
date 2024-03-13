@@ -47,14 +47,18 @@ public class RestTemplateService {
     public <T> T cfSend(String reqToken, String reqUrl, HttpMethod httpMethod, Object bodyObject, Class<T> responseType, String resEntityType) {
 
         HttpHeaders reqHeaders = new HttpHeaders();
-        reqHeaders.add(AUTHORIZATION_HEADER_KEY, "bearer " + reqToken);
-        reqHeaders.add(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        reqHeaders.add(AUTHORIZATION_HEADER_KEY, "clientcert " + reqToken);
+        //reqHeaders.add(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+
 
         HttpEntity<Object> reqEntity = new HttpEntity<>(bodyObject, reqHeaders);
 
-        LOGGER.info("<T> T send :: Request : {} {baseUrl} : {}, Content-Type: {}", httpMethod, reqUrl, reqHeaders.get(CONTENT_TYPE));
-        ResponseEntity<T> resEntity = restTemplate.exchange(reqUrl, httpMethod, reqEntity, responseType);
 
+        LOGGER.info("<T> T send :: Request : {} {baseUrl} : {}, Content-Type: {}, {}: {}", httpMethod, "https://"+reqUrl, reqHeaders.get(CONTENT_TYPE), AUTHORIZATION_HEADER_KEY, reqHeaders.get(AUTHORIZATION_HEADER_KEY));
+        ResponseEntity<T> resEntity = restTemplate.exchange("https://"+reqUrl, httpMethod, reqEntity, responseType);
+        LOGGER.info("Response : {}", resEntity.getHeaders());
+        LOGGER.info("Response : {}", resEntity.getBody());
         if (resEntity.getBody() != null) {
             LOGGER.info("Response Type: {}", resEntity.getBody().getClass());
         } else {

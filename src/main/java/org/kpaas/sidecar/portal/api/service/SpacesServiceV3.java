@@ -5,6 +5,8 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Space;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SpacesServiceV3 extends Common {
     public ApplyManifestResponse applyManifest(String guid, String token) {
@@ -62,12 +64,16 @@ public class SpacesServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider(token)).spacesV3().getIsolationSegment(GetSpaceIsolationSegmentRequest.builder().build()).block();
     }
 
-    public ListSpacesResponse list(String guid, String token) {
+    public ListSpacesResponse list(List<String> orgGuids, List<String> names, String token) {
+        orgGuids = stringListNullCheck(orgGuids);
+        names = stringListNullCheck(names);
+
         return cloudFoundryClient(tokenProvider(token))
                 .spacesV3()
                 .list(ListSpacesRequest
                         .builder()
-                        .organizationId(guid)
+                        .organizationIds(orgGuids)
+                        .names(names)
                         .build())
                 .block();
     }

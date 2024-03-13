@@ -5,6 +5,8 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.ServiceBinding;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServiceBindingsServiceV3 extends Common {
     public CreateServiceBindingResponse create(ServiceBinding serviceBinding, String token) {
@@ -41,11 +43,24 @@ public class ServiceBindingsServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider(token)).serviceBindingsV3().getParameters(GetServiceBindingParametersRequest.builder().build()).block();
     }
 
-    public ListServiceBindingsResponse list(String token) {
+    public ListServiceBindingsResponse list(List<String> appGuids, List<String> appNames, List<String> serviceInstanceGuids, List<String> serviceInstanceNames, List<String> servicePlanGuids, List<String> servicePlanNames, String token) {
+        appGuids = stringListNullCheck(appGuids);
+        appNames = stringListNullCheck(appNames);
+        serviceInstanceGuids = stringListNullCheck(serviceInstanceGuids);
+        serviceInstanceNames = stringListNullCheck(serviceInstanceNames);
+        servicePlanGuids = stringListNullCheck(servicePlanGuids);
+        servicePlanNames = stringListNullCheck(servicePlanNames);
+
         return cloudFoundryClient(tokenProvider(token))
                 .serviceBindingsV3()
                 .list(ListServiceBindingsRequest
                         .builder()
+                        .applicationIds(appGuids)
+                        .appNames(appNames)
+                        .serviceInstanceIds(serviceInstanceGuids)
+                        .serviceInstanceNames(serviceInstanceNames)
+                        .servicePlanIds(servicePlanGuids)
+                        .servicePlanNames(servicePlanNames)
                         .build())
                 .block();
     }

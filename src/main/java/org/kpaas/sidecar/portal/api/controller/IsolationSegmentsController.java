@@ -1,8 +1,8 @@
 package org.kpaas.sidecar.portal.api.controller;
 
 import org.cloudfoundry.client.v3.isolationsegments.CreateIsolationSegmentResponse;
-import org.cloudfoundry.client.v3.isolationsegments.IsolationSegment;
 import org.cloudfoundry.client.v3.isolationsegments.ListIsolationSegmentsResponse;
+import org.kpaas.sidecar.portal.api.model.IsolationSegment;
 import org.kpaas.sidecar.portal.api.service.IsolationSegmentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

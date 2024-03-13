@@ -5,6 +5,8 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Domain;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DomainsServiceV3 extends Common {
     public CheckReservedRoutesResponse checkReservedRoutes(String guid, String token) {
@@ -41,11 +43,16 @@ public class DomainsServiceV3 extends Common {
                 .block();
     }
 
-    public ListDomainsResponse list(String token) {
+    public ListDomainsResponse list(List<String> names, List<String> owningOrgGuids, String token) {
+        names = stringListNullCheck(names);
+        owningOrgGuids = stringListNullCheck(owningOrgGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .domainsV3()
                 .list(ListDomainsRequest
                         .builder()
+                        .names(names)
+                        .owningOrganizationIds(owningOrgGuids)
                         .build())
                 .block();
     }

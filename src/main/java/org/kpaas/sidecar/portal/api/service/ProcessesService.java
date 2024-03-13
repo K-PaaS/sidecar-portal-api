@@ -5,6 +5,8 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Process;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProcessesService extends Common {
     public GetProcessResponse get(String guid, String token) {
@@ -27,22 +29,28 @@ public class ProcessesService extends Common {
                 .block();
     }
 
-    public ListProcessesResponse list(String guid, String token) {
+    public ListProcessesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids, String token) {
+        appGuids = stringListNullCheck(appGuids);
+        orgGuids = stringListNullCheck(orgGuids);
+        spaceGuids = stringListNullCheck(spaceGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .processes()
                 .list(ListProcessesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationIds(appGuids)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }
 
-    public ScaleProcessResponse scale(Process process, String token) {
+    public ScaleProcessResponse scale(String processGuid, Process process, String token) {
         return cloudFoundryClient(tokenProvider(token))
                 .processes()
                 .scale(ScaleProcessRequest
                         .builder()
-                        .processId(process.getId())
+                        .processId(processGuid)
                         .instances(process.getInstances())
                         .memoryInMb(process.getMemoryInMb())
                         .diskInMb(process.getDiskInMb())
@@ -54,12 +62,12 @@ public class ProcessesService extends Common {
         return cloudFoundryClient(tokenProvider(token)).processes().terminateInstance(TerminateProcessInstanceRequest.builder().build()).block();
     }
 
-    public UpdateProcessResponse update(Process process, String token) {
+    public UpdateProcessResponse update(String processGuid, Process process, String token) {
         return cloudFoundryClient(tokenProvider(token))
                 .processes()
                 .update(UpdateProcessRequest
                         .builder()
-                        .processId(process.getId())
+                        .processId(processGuid)
                         .healthCheck(process.getHealthCheck())
                         .command(process.getCommand())
                         .build())

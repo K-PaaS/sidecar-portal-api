@@ -19,6 +19,15 @@ public class ServicePlansServiceV3 extends Common {
                 .servicePlansV3()
                 .list(ListServicePlansRequest
                         .builder()
+                        .brokerCatalogIds()
+                        .names()
+                        .organizationIds()
+                        .serviceBrokerIds()
+                        .serviceBrokerNames()
+                        .serviceInstanceIds()
+                        .serviceOfferingIds()
+                        .serviceOfferingNames()
+                        .spaceIds()
                         .build())
                 .block();
     }

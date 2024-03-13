@@ -6,7 +6,9 @@ import org.cloudfoundry.client.v3.packages.*;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+
 import java.io.File;
+import java.util.List;
 
 @Service
 public class PackagesService extends Common {
@@ -70,22 +72,31 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public ListPackagesResponse list(String guid, String token) {
+    public ListPackagesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids, String token) {
+        appGuids = stringListNullCheck(appGuids);
+        orgGuids = stringListNullCheck(orgGuids);
+        spaceGuids = stringListNullCheck(spaceGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .packages()
                 .list(ListPackagesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationIds(appGuids)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }
 
-    public ListPackageDropletsResponse listDroplets(String guid, String token) {
+    public ListPackageDropletsResponse listDroplets(String packageGuid, List<String> dropletGuids, String token) {
+        dropletGuids = stringListNullCheck(dropletGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .packages()
                 .listDroplets(ListPackageDropletsRequest
                         .builder()
-                        .packageId(guid)
+                        .packageId(packageGuid)
+                        .dropletIds(dropletGuids)
                         .build())
                 .block();
     }

@@ -1,7 +1,5 @@
 package org.kpaas.sidecar.portal.api.service;
 
-import org.cloudfoundry.client.v3.Lifecycle;
-import org.cloudfoundry.client.v3.LifecycleType;
 import org.cloudfoundry.client.v3.Relationship;
 import org.cloudfoundry.client.v3.builds.*;
 import org.kpaas.sidecar.portal.api.common.Common;
@@ -15,7 +13,7 @@ public class BuildsService extends Common {
                 .create(CreateBuildRequest
                         .builder()
                         .getPackage(Relationship.builder().id(packageGuid).build())
-                        .lifecycle(Lifecycle.builder().type(LifecycleType.KPACK).build())
+                        //.lifecycle(Lifecycle.builder().type(LifecycleType.KPACK).build())
                         .build())
                 .block();
     }

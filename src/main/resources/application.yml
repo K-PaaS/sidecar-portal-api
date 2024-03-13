@@ -9,6 +9,10 @@ spring:
   security:
     username: <username>
     password: <password>
+  # swaggger를 위한 설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 sidecar:
   apiHost: <apihost>
   #test를 위한 Token 설정

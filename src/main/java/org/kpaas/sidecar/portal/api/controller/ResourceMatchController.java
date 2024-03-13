@@ -11,6 +11,7 @@ public class ResourceMatchController {
     @Autowired
     private ResourceMatchServiceV3 resourceMatchServiceV3;
 
+    //미 완성
     @GetMapping(value = {"/resourceMatch/list"})
     public ListMatchingResourcesResponse list(String token) throws Exception {
         return resourceMatchServiceV3.list(token);

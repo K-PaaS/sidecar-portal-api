@@ -6,6 +6,15 @@ import java.util.Base64;
 import java.util.Map;
 
 public abstract class Envelope {
+    public Envelope(String instance_id, Log log, String source_id, Map<String, String> tags, Long timestamp, Map<String, String> deprecated_tags) {
+        this.instance_id = instance_id;
+        this.log = log;
+        this.source_id = source_id;
+        this.tags = tags;
+        this.timestamp = timestamp;
+        this.deprecated_tags = deprecated_tags;
+    }
+
     private String instance_id;
 
     private Log log;

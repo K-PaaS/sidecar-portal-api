@@ -2,6 +2,7 @@ package org.kpaas.sidecar.portal.api.service;
 
 import org.cloudfoundry.client.v3.isolationsegments.*;
 import org.kpaas.sidecar.portal.api.common.Common;
+import org.kpaas.sidecar.portal.api.model.IsolationSegment;
 import org.springframework.stereotype.Service;
 
 @Service

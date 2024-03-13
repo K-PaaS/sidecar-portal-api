@@ -4,6 +4,8 @@ import org.cloudfoundry.client.v3.tasks.*;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TasksService extends Common {
     public CancelTaskResponse cancel(String guid, String token) {
@@ -24,11 +26,18 @@ public class TasksService extends Common {
                 .block();
     }
 
-    public ListTasksResponse list(String token) {
+    public ListTasksResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids, String token) {
+        appGuids = stringListNullCheck(appGuids);
+        orgGuids = stringListNullCheck(orgGuids);
+        spaceGuids = stringListNullCheck(spaceGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .tasks()
                 .list(ListTasksRequest
                         .builder()
+                        .applicationIds(appGuids)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }

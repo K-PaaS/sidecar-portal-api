@@ -4,19 +4,23 @@ import org.cloudfoundry.client.v3.builds.CreateBuildResponse;
 import org.cloudfoundry.client.v3.builds.GetBuildResponse;
 import org.kpaas.sidecar.portal.api.service.BuildsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class BuildsController {
     @Autowired
     private BuildsService buildsService;
 
-    @PostMapping(value = {"/builds/{packageGuid}/create"})
-    public CreateBuildResponse create(@PathVariable String packageGuid, String token) throws Exception {
-        return buildsService.create(packageGuid, token);
+    @PostMapping(value = {"/builds"})
+    public CreateBuildResponse create(@RequestBody Map<String, String> requestData, String token) throws Exception {
+        if (ObjectUtils.isEmpty(requestData.get("packageGuid"))) {
+            // 추후 exception 처리
+            return null;
+        }
+        return buildsService.create(requestData.get("packageGuid"), token);
     }
 
     @GetMapping(value = {"/builds/{buildGuid}/get"})

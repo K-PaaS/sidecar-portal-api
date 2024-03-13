@@ -5,6 +5,7 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.ServiceInstance;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,12 +44,16 @@ public class ServiceInstancesServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().getUserProvidedCredentials(GetUserProvidedCredentialsRequest.builder().build()).block();
     }
 
-    public ListServiceInstancesResponse list(String guid, String token) {
+    public ListServiceInstancesResponse list(List<String> spaceGuid, List<String> serviceInstanceNames,String token) {
+        spaceGuid = stringListNullCheck(spaceGuid);
+        serviceInstanceNames = stringListNullCheck(serviceInstanceNames);
+
         return cloudFoundryClient(tokenProvider(token))
                 .serviceInstancesV3()
                 .list(ListServiceInstancesRequest
                         .builder()
-                        .spaceId(guid)
+                        .spaceIds(spaceGuid)
+                        .serviceInstanceNames(serviceInstanceNames)
                         .build())
                 .block();
     }

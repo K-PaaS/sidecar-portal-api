@@ -7,22 +7,24 @@ import org.kpaas.sidecar.portal.api.service.ServiceBindingsServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ServiceBindingsController {
     @Autowired
     private ServiceBindingsServiceV3 serviceBindingsServiceV3;
 
     @GetMapping(value = {"/serviceBindings/list"})
-    public ListServiceBindingsResponse list(String token) throws Exception {
-        return serviceBindingsServiceV3.list(token);
+    public ListServiceBindingsResponse list(@RequestParam(required = false) List<String> appGuids, @RequestParam(required = false) List<String> appNames, @RequestParam(required = false) List<String> serviceInstanceGuids, @RequestParam(required = false) List<String> serviceInstanceNames, @RequestParam(required = false) List<String> servicePlanGuids, @RequestParam(required = false) List<String> servicePlanNames, String token) throws Exception {
+        return serviceBindingsServiceV3.list(appGuids, appNames, serviceInstanceGuids, serviceInstanceNames, servicePlanGuids, servicePlanNames, token);
     }
 
-    @PostMapping(value = {"/serviceBindings/create"})
+    @PostMapping(value = {"/serviceBindings"})
     public CreateServiceBindingResponse create(@RequestBody ServiceBinding serviceBinding, String token) throws Exception {
         return serviceBindingsServiceV3.create(serviceBinding, token);
     }
 
-    @DeleteMapping(value = {"/serviceBindings/{serviceBindingGuid}/delete"})
+    @DeleteMapping(value = {"/serviceBindings/{serviceBindingGuid}"})
     public String delete(@PathVariable String serviceBindingGuid, String token) throws Exception {
         return serviceBindingsServiceV3.delete(serviceBindingGuid, token);
     }

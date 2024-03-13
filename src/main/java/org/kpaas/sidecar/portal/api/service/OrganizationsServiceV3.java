@@ -5,6 +5,8 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Organization;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrganizationsServiceV3 extends Common {
     public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String guid, String token) {
@@ -59,21 +61,29 @@ public class OrganizationsServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider(token)).organizationsV3().getUsageSummary(GetOrganizationUsageSummaryRequest.builder().build()).block();
     }
 
-    public ListOrganizationsResponse list(String token) {
+    public ListOrganizationsResponse list(List<String> names, String token) {
+        names = stringListNullCheck(names);
+
         return cloudFoundryClient(tokenProvider(token))
                 .organizationsV3()
                 .list(ListOrganizationsRequest
                         .builder()
+                        .names(names)
                         .build())
                 .block();
     }
 
-    public ListOrganizationDomainsResponse listDomains(String guid, String token) {
+    public ListOrganizationDomainsResponse listDomains(String orgGuid, List<String> domainGuids, List<String> names, String token) {
+        domainGuids = stringListNullCheck(domainGuids);
+        names = stringListNullCheck(names);
+
         return cloudFoundryClient(tokenProvider(token))
                 .organizationsV3()
                 .listDomains(ListOrganizationDomainsRequest
                         .builder()
-                        .organizationId(guid)
+                        .organizationId(orgGuid)
+                        .domainIds(domainGuids)
+                        .names(names)
                         .build())
                 .block();
     }

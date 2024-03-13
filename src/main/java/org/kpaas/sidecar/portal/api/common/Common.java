@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class Common {
     @Value("${sidecar.apiHost}")
@@ -38,5 +41,35 @@ public class Common {
 
     public TokenProvider tokenProvider(String token) {
         return tokenProvider();
+    }
+
+    /*
+    * List<String> 이 null이면 객체 선언 후 리턴
+    */
+    public List<String> stringListNullCheck(List<String> elements){
+        if ( elements == null || elements.isEmpty() ){
+            elements = new ArrayList<>();
+        }
+        return elements;
+    }
+
+    /*
+     * List<Integer> 이 null이면 객체 선언 후 리턴
+     */
+    public List<Integer> integerListNullCheck(List<Integer> elements){
+        if ( elements == null || elements.isEmpty() ){
+            elements = new ArrayList<>();
+        }
+        return elements;
+    }
+
+    /*
+     * String 이 null이면 객체 선언 후 리턴
+     */
+    public String stringNullCheck(String elements){
+        if ( elements == null || elements.isEmpty() ){
+            elements = "";
+        }
+        return elements;
     }
 }

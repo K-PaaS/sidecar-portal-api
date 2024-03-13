@@ -5,6 +5,9 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Role;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RolesServiceV3 extends Common {
     public CreateRoleResponse create(Role role, String token) {
@@ -56,12 +59,24 @@ public class RolesServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider(token)).rolesV3().get(GetRoleRequest.builder().build()).block();
     }
 
-    public ListRolesResponse list(String guid, String token) {
+    public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, String roleGuid, String token) {
+        orgGuids = stringListNullCheck(orgGuids);
+        spaceGuids = stringListNullCheck(spaceGuids);
+        usernames = stringListNullCheck(usernames);
+
+        if ( types == null || types.isEmpty() ){
+            types = new ArrayList<>();
+        }
+
         return cloudFoundryClient(tokenProvider(token))
                 .rolesV3()
                 .list(ListRolesRequest
                         .builder()
-                        .roleId(guid)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
+                        .userIds(usernames)
+                        .types(types)
+                        .roleIds(roleGuid)
                         .build())
                 .block();
     }

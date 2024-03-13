@@ -6,6 +6,9 @@ import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Application;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class ApplicationsServiceV3 extends Common{
@@ -83,32 +86,49 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationsResponse list(String spaceGuid, String token) {
+    public ListApplicationsResponse list(List<String> names, List<String> orgGuids, List<String> spaceGuids, String token) {
+        names = stringListNullCheck(names);
+        orgGuids = stringListNullCheck(orgGuids);
+        spaceGuids = stringListNullCheck(spaceGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .applicationsV3()
                 .list(ListApplicationsRequest
                         .builder()
-                        .spaceId(spaceGuid)
+                        .names(names)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }
 
-    public ListApplicationProcessesResponse listProcesses(String guid, String token) {
+    public ListApplicationProcessesResponse listProcesses(String appGuid, List<String> processGuids, String token) {
+        processGuids = stringListNullCheck(processGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .applicationsV3()
                 .listProcesses(ListApplicationProcessesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationId(appGuid)
+                        .processId(processGuids)
+                        .types("web")
                         .build())
                 .block();
     }
 
-    public ListApplicationTasksResponse listTasks(String guid, String token) {
+    public ListApplicationTasksResponse listTasks(String appGuid, List<String> names, List<String> sequenceGuids, List<String> taskGuids, String token) {
+        names = stringListNullCheck(names);
+        sequenceGuids = stringListNullCheck(sequenceGuids);
+        taskGuids = stringListNullCheck(taskGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .applicationsV3()
                 .listTasks(ListApplicationTasksRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationId(appGuid)
+                        .names(names)
+                        .sequenceIds(sequenceGuids)
+                        .taskIds(taskGuids)
                         .build())
                 .block();
     }
@@ -129,10 +149,10 @@ public class ApplicationsServiceV3 extends Common{
                 .scale(ScaleApplicationRequest
                         .builder()
                         .applicationId(guid)
-                        //.type("web")
+                        .type("web")
                         .instances(app.getInstances())
-                        .diskInMb(app.getDiskQuota())
-                        .memoryInMb(app.getMemory())
+                        .diskInMb(app.getDiskInMb())
+                        .memoryInMb(app.getMemoryInMb())
                         .build())
                 .block();
     }
@@ -190,12 +210,29 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationRoutesResponse listRoutes(String guid, String token) {
+    public ListApplicationRoutesResponse listRoutes(String appGuid, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> spaceGuids, String token) {
+        if ( domainGuids == null || domainGuids.isEmpty() ){
+            domainGuids = new ArrayList<>();
+        }
+        if ( hosts == null || hosts.isEmpty() ){
+            hosts = new ArrayList<>();
+        }
+        if ( orgGuids == null || orgGuids.isEmpty() ){
+            orgGuids = new ArrayList<>();
+        }
+        if ( spaceGuids == null || spaceGuids.isEmpty() ){
+            spaceGuids = new ArrayList<>();
+        }
+
         return cloudFoundryClient(tokenProvider(token))
                 .applicationsV3()
                 .listRoutes(ListApplicationRoutesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationId(appGuid)
+                        .domainIds(domainGuids)
+                        .hosts(hosts)
+                        .organizationIds(orgGuids)
+                        .spaceIds(spaceGuids)
                         .build())
                 .block();
     }
@@ -233,12 +270,15 @@ public class ApplicationsServiceV3 extends Common{
     public ListApplicationFeaturesResponse listFeatures(String guid, String token) {
         return cloudFoundryClient(tokenProvider(token)).applicationsV3().listFeatures(ListApplicationFeaturesRequest.builder().build()).block();
     }
-    public ListApplicationPackagesResponse listPackages(String guid, String token) {
+    public ListApplicationPackagesResponse listPackages(String appGuid, List<String> packageGuids, String token) {
+        packageGuids = stringListNullCheck(packageGuids);
+
         return cloudFoundryClient(tokenProvider(token))
                 .applicationsV3()
                 .listPackages(ListApplicationPackagesRequest
                         .builder()
-                        .applicationId(guid)
+                        .applicationId(appGuid)
+                        .packageIds(packageGuids)
                         .build())
                 .block();
     }
