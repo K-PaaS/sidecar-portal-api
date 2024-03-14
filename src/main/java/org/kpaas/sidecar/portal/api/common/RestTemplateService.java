@@ -1,74 +1,56 @@
 package org.kpaas.sidecar.portal.api.common;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.container.platform.api.common.CommonService;
+import org.container.platform.api.common.VaultService;
+import org.container.platform.api.common.model.Params;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
-@Service
-public class RestTemplateService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestTemplateService.class);
-    private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
-    private static final String CONTENT_TYPE = "Content-Type";
+import static org.kpaas.sidecar.portal.api.common.Constants.TARGET_SIDECAR_API;
 
-    //private final RestTemplate restTemplate;
-
-    @Autowired
-    private RestTemplate restTemplate;
+@Service("sRestTemplateService")
+public class RestTemplateService extends org.container.platform.api.common.RestTemplateService{
 
     /**
-     * Instantiates a new Rest template service.
+     * Instantiates a new Rest template service
      *
-     * @param restTemplate                             the rest template
+     * @param restTemplate                            the rest template
+     * @param shortRestTemplate
+     * @param propertyService                         the property service
+     * @param commonService
+     * @param vaultService
+     * @param commonApiAuthorizationId
+     * @param commonApiAuthorizationPassword
+     * @param metricCollectorApiAuthorizationId
+     * @param metricCollectorApiAuthorizationPassword
      */
-    @Autowired
-    public RestTemplateService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public RestTemplateService(RestTemplate restTemplate,
+                               @Qualifier("shortTimeoutRestTemplate") RestTemplate shortRestTemplate,
+                               @Qualifier("sPropertyService") PropertyService propertyService,
+                               CommonService commonService,
+                               VaultService vaultService,
+                               @Value("${commonApi.authorization.id}") String commonApiAuthorizationId,
+                               @Value("${commonApi.authorization.password}") String commonApiAuthorizationPassword,
+                               @Value("${cpMetricCollector.api.authorization.id}") String metricCollectorApiAuthorizationId,
+                               @Value("${cpMetricCollector.api.authorization.password}") String metricCollectorApiAuthorizationPassword) {
+        super(restTemplate, shortRestTemplate, propertyService, commonService, vaultService,
+                commonApiAuthorizationId, commonApiAuthorizationPassword, metricCollectorApiAuthorizationId, metricCollectorApiAuthorizationPassword);
     }
+    @Override
+    protected void setApiUrlAuthorization(String reqApi, Params params) {
 
+        super.setApiUrlAuthorization(reqApi, params);
 
-    /**
-     * Cf send t.
-     *
-     * @param <T>          the type parameter
-     * @param reqToken     the req token
-     * @param reqUrl       the req url
-     * @param httpMethod   the http method
-     * @param bodyObject   the body object
-     * @param responseType the response type
-     * @return the t
-     */
-    public <T> T cfSend(String reqToken, String reqUrl, HttpMethod httpMethod, Object bodyObject, Class<T> responseType) {
-        return cfSend(reqToken, reqUrl, httpMethod, bodyObject, responseType, "");
-    }
+        // SIDECAR API
+        if(TARGET_SIDECAR_API.equals(reqApi)) {
+            Assert.notNull(params, "Null parameter");
+            Assert.notNull(params.getClusterToken(), "Null parameter(ClusterToken)");
 
-    public <T> T cfSend(String reqToken, String reqUrl, HttpMethod httpMethod, Object bodyObject, Class<T> responseType, String resEntityType) {
-
-        HttpHeaders reqHeaders = new HttpHeaders();
-        reqHeaders.add(AUTHORIZATION_HEADER_KEY, "clientcert " + reqToken);
-        //reqHeaders.add(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
-
-
-        HttpEntity<Object> reqEntity = new HttpEntity<>(bodyObject, reqHeaders);
-
-
-        LOGGER.info("<T> T send :: Request : {} {baseUrl} : {}, Content-Type: {}, {}: {}", httpMethod, "https://"+reqUrl, reqHeaders.get(CONTENT_TYPE), AUTHORIZATION_HEADER_KEY, reqHeaders.get(AUTHORIZATION_HEADER_KEY));
-        ResponseEntity<T> resEntity = restTemplate.exchange("https://"+reqUrl, httpMethod, reqEntity, responseType);
-        LOGGER.info("Response : {}", resEntity.getHeaders());
-        LOGGER.info("Response : {}", resEntity.getBody());
-        if (resEntity.getBody() != null) {
-            LOGGER.info("Response Type: {}", resEntity.getBody().getClass());
-        } else {
-            LOGGER.info("Response Type: {}", "response body is null");
-        }
-
-        if("headers".equals(resEntityType) && resEntity.getStatusCodeValue() == 202 ){
-            return (T) resEntity.getHeaders();
-        }else{
-            return resEntity.getBody();
+            this.baseUrl = ((org.kpaas.sidecar.portal.api.common.PropertyService)propertyService).getSidecarApiUrl();
+            this.base64Authorization = "bearer " + params.getClusterToken();
         }
     }
 }

@@ -5,9 +5,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.common.RestTemplateService;
 import org.kpaas.sidecar.portal.api.model.Batch;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -23,7 +23,8 @@ public class LogService extends Common {
         TokenProvider tokenProvider = tokenProvider(token);
 
         String reqUrl = apiHost + "/api/v1/read/" + guid  + "?" + (isDescending ? "descending=true&" : "") + "envelope_types=" + envelope_types + (limit == 0  ? "" : "&limit=" + limit) +"&start_time=" + time;
-        Map logmap = restTemplateService.cfSend(token, reqUrl, HttpMethod.GET, null, Map.class);
+        Map logmap = new HashMap();//restTemplateService.cfSend(token, reqUrl, HttpMethod.GET, null, Map.class);
+
 
         ObjectMapper mapper = new ObjectMapper();
         Batch batch = mapper.convertValue(logmap.get("envelopes"), Batch.class);

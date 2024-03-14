@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class RolesController {
+public class sRolesController {
     @Autowired
     private RolesServiceV3 rolesServiceV3;
 
