@@ -9,12 +9,12 @@ import java.util.List;
 
 @Service
 public class DomainsServiceV3 extends Common {
-    public CheckReservedRoutesResponse checkReservedRoutes(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).domainsV3().checkReservedRoutes(CheckReservedRoutesRequest.builder().build()).block();
+    public CheckReservedRoutesResponse checkReservedRoutes(String guid) {
+        return cloudFoundryClient(tokenProvider()).domainsV3().checkReservedRoutes(CheckReservedRoutesRequest.builder().build()).block();
     }
 
-    public CreateDomainResponse create(Domain domain, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateDomainResponse create(Domain domain) {
+        return cloudFoundryClient(tokenProvider())
                 .domainsV3()
                 .create(CreateDomainRequest
                         .builder()
@@ -23,8 +23,8 @@ public class DomainsServiceV3 extends Common {
                 .block();
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .domainsV3()
                 .delete(DeleteDomainRequest
                         .builder()
@@ -33,8 +33,8 @@ public class DomainsServiceV3 extends Common {
                 .block();
     }
 
-    public GetDomainResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetDomainResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .domainsV3()
                 .get(GetDomainRequest
                         .builder()
@@ -43,11 +43,11 @@ public class DomainsServiceV3 extends Common {
                 .block();
     }
 
-    public ListDomainsResponse list(List<String> names, List<String> owningOrgGuids, String token) {
+    public ListDomainsResponse list(List<String> names, List<String> owningOrgGuids) {
         names = stringListNullCheck(names);
         owningOrgGuids = stringListNullCheck(owningOrgGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .domainsV3()
                 .list(ListDomainsRequest
                         .builder()
@@ -57,15 +57,15 @@ public class DomainsServiceV3 extends Common {
                 .block();
     }
 
-    public ShareDomainResponse share(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).domainsV3().share(ShareDomainRequest.builder().build()).block();
+    public ShareDomainResponse share(String guid) {
+        return cloudFoundryClient(tokenProvider()).domainsV3().share(ShareDomainRequest.builder().build()).block();
     }
 
-    public Void unshare(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).domainsV3().unshare(UnshareDomainRequest.builder().build()).block();
+    public Void unshare(String guid) {
+        return cloudFoundryClient(tokenProvider()).domainsV3().unshare(UnshareDomainRequest.builder().build()).block();
     }
 
-    public UpdateDomainResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).domainsV3().update(UpdateDomainRequest.builder().build()).block();
+    public UpdateDomainResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).domainsV3().update(UpdateDomainRequest.builder().build()).block();
     }
 }

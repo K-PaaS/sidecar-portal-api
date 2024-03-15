@@ -12,8 +12,8 @@ import java.util.List;
 
 @Service
 public class PackagesService extends Common {
-    public CopyPackageResponse copy(String packageGuid, String appGuid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CopyPackageResponse copy(String packageGuid, String appGuid) {
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .copy(CopyPackageRequest
                         .builder()
@@ -23,8 +23,8 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public CreatePackageResponse create(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreatePackageResponse create(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .create(CreatePackageRequest
                         .builder()
@@ -42,8 +42,8 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .delete(DeletePackageRequest
                         .builder()
@@ -52,8 +52,8 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public Flux<byte[]> download(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public Flux<byte[]> download(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .download(DownloadPackageRequest
                         .builder()
@@ -62,8 +62,8 @@ public class PackagesService extends Common {
                 ;
     }
 
-    public GetPackageResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetPackageResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .get(GetPackageRequest
                         .builder()
@@ -72,12 +72,12 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public ListPackagesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids, String token) {
+    public ListPackagesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids) {
         appGuids = stringListNullCheck(appGuids);
         orgGuids = stringListNullCheck(orgGuids);
         spaceGuids = stringListNullCheck(spaceGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .list(ListPackagesRequest
                         .builder()
@@ -88,10 +88,10 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public ListPackageDropletsResponse listDroplets(String packageGuid, List<String> dropletGuids, String token) {
+    public ListPackageDropletsResponse listDroplets(String packageGuid, List<String> dropletGuids) {
         dropletGuids = stringListNullCheck(dropletGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .packages()
                 .listDroplets(ListPackageDropletsRequest
                         .builder()
@@ -101,7 +101,7 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public UploadPackageResponse upload(String guid, File file, String token) {
-        return cloudFoundryClient(tokenProvider(token)).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(file.toPath()).build()).block();
+    public UploadPackageResponse upload(String guid, File file) {
+        return cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(file.toPath()).build()).block();
     }
 }

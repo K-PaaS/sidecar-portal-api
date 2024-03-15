@@ -13,7 +13,7 @@ public class DropletsController {
     private DropletsService dropletsService;
 
     @GetMapping(value = {"/dropletes/{dropletsGuid}/get"})
-    public GetDropletResponse get(@PathVariable String dropletsGuid, String token) throws Exception {
-        return dropletsService.get(dropletsGuid, token);
+    public GetDropletResponse get(@PathVariable String dropletsGuid) throws Exception {
+        return dropletsService.get(dropletsGuid);
     }
 }

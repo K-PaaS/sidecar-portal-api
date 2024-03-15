@@ -9,8 +9,8 @@ import java.util.List;
 
 @Service
 public class ProcessesService extends Common {
-    public GetProcessResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetProcessResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .processes()
                 .get(GetProcessRequest
                         .builder()
@@ -19,8 +19,8 @@ public class ProcessesService extends Common {
                 .block();
     }
 
-    public GetProcessStatisticsResponse getStatistics(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetProcessStatisticsResponse getStatistics(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .processes()
                 .getStatistics(GetProcessStatisticsRequest
                         .builder()
@@ -29,12 +29,12 @@ public class ProcessesService extends Common {
                 .block();
     }
 
-    public ListProcessesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids, String token) {
+    public ListProcessesResponse list(List<String> appGuids, List<String> orgGuids, List<String> spaceGuids) {
         appGuids = stringListNullCheck(appGuids);
         orgGuids = stringListNullCheck(orgGuids);
         spaceGuids = stringListNullCheck(spaceGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .processes()
                 .list(ListProcessesRequest
                         .builder()
@@ -45,8 +45,8 @@ public class ProcessesService extends Common {
                 .block();
     }
 
-    public ScaleProcessResponse scale(String processGuid, Process process, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public ScaleProcessResponse scale(String processGuid, Process process) {
+        return cloudFoundryClient(tokenProvider())
                 .processes()
                 .scale(ScaleProcessRequest
                         .builder()
@@ -58,12 +58,12 @@ public class ProcessesService extends Common {
                 .block();
     }
 
-    public Void terminateInstance(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).processes().terminateInstance(TerminateProcessInstanceRequest.builder().build()).block();
+    public Void terminateInstance(String guid) {
+        return cloudFoundryClient(tokenProvider()).processes().terminateInstance(TerminateProcessInstanceRequest.builder().build()).block();
     }
 
-    public UpdateProcessResponse update(String processGuid, Process process, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public UpdateProcessResponse update(String processGuid, Process process) {
+        return cloudFoundryClient(tokenProvider())
                 .processes()
                 .update(UpdateProcessRequest
                         .builder()

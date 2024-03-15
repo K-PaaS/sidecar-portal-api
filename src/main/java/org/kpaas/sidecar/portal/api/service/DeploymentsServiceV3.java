@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DeploymentsServiceV3 extends Common {
-    public CancelDeploymentResponse cancel(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CancelDeploymentResponse cancel(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .deploymentsV3()
                 .cancel(CancelDeploymentRequest
                         .builder()
@@ -16,12 +16,12 @@ public class DeploymentsServiceV3 extends Common {
                 .block();
     }
 
-    public CreateDeploymentResponse create(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).deploymentsV3().create(CreateDeploymentRequest.builder().build()).block();
+    public CreateDeploymentResponse create(String guid) {
+        return cloudFoundryClient(tokenProvider()).deploymentsV3().create(CreateDeploymentRequest.builder().build()).block();
     }
 
-    public GetDeploymentResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetDeploymentResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .deploymentsV3()
                 .get(GetDeploymentRequest
                         .builder()
@@ -30,7 +30,7 @@ public class DeploymentsServiceV3 extends Common {
                 .block();
     }
 
-    public ListDeploymentsResponse list(String token) {
-        return cloudFoundryClient(tokenProvider(token)).deploymentsV3().list(ListDeploymentsRequest.builder().build()).block();
+    public ListDeploymentsResponse list() {
+        return cloudFoundryClient(tokenProvider()).deploymentsV3().list(ListDeploymentsRequest.builder().build()).block();
     }
 }

@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DropletsService extends Common {
-    public CopyDropletResponse copy(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).droplets().copy(CopyDropletRequest.builder().build()).block();
+    public CopyDropletResponse copy(String guid) {
+        return cloudFoundryClient(tokenProvider()).droplets().copy(CopyDropletRequest.builder().build()).block();
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).droplets().delete(DeleteDropletRequest.builder().build()).block();
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider()).droplets().delete(DeleteDropletRequest.builder().build()).block();
     }
 
-    public GetDropletResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetDropletResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .droplets()
                 .get(GetDropletRequest
                         .builder()
@@ -24,7 +24,7 @@ public class DropletsService extends Common {
                 .block();
     }
 
-    public ListDropletsResponse list(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).droplets().list(ListDropletsRequest.builder().build()).block();
+    public ListDropletsResponse list(String guid) {
+        return cloudFoundryClient(tokenProvider()).droplets().list(ListDropletsRequest.builder().build()).block();
     }
 }

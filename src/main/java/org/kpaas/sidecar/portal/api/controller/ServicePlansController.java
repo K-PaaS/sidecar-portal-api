@@ -12,7 +12,7 @@ public class ServicePlansController {
     private ServicePlansServiceV3 servicePlansServiceV3;
 
     @GetMapping(value = {"/servicePlans/list"})
-    public ListServicePlansResponse list(String token) throws Exception {
-        return servicePlansServiceV3.list(token);
+    public ListServicePlansResponse list() throws Exception {
+        return servicePlansServiceV3.list();
     }
 }

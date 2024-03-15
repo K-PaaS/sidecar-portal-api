@@ -4,8 +4,10 @@ import org.cloudfoundry.reactor.DefaultConnectionContext;
 import org.cloudfoundry.reactor.TokenProvider;
 import org.cloudfoundry.reactor.client.ReactorCloudFoundryClient;
 import org.kpaas.sidecar.portal.api.config.TokenGrantTokenProvider;
+import org.kpaas.sidecar.portal.api.login.AuthUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,25 +24,28 @@ public class Common {
     @Value("${sidecar.token}")
     public String token;
 
+    public DefaultConnectionContext defaultConnectionContext;
 
-    @Bean
+    @Autowired
+    @Qualifier("authUtil")
+    private AuthUtil authUtil;
+
     public ReactorCloudFoundryClient cloudFoundryClient(TokenProvider tokenProvider) {
-        DefaultConnectionContext defaultConnectionContext = DefaultConnectionContext.builder().apiHost(apiHost).skipSslValidation(true).build();
+        defaultConnectionContext = DefaultConnectionContext.builder().apiHost(apiHost).skipSslValidation(true).build();
         return ReactorCloudFoundryClient.builder()
                 .connectionContext(defaultConnectionContext)
                 .tokenProvider(tokenProvider)
                 .build();
     }
 
-    @Bean
     public TokenProvider tokenProvider() {
-        String tokenText = tokenKind + " " + token;
-        TokenProvider tokenProvider = new TokenGrantTokenProvider(tokenText);
-        return tokenProvider;
+        return tokenProvider(authUtil.sidecarAuth().getClusterToken());
     }
 
     public TokenProvider tokenProvider(String token) {
-        return tokenProvider();
+        String tokenText = tokenKind + " " + token;
+        TokenProvider tokenProvider = new TokenGrantTokenProvider(tokenText);
+        return tokenProvider;
     }
 
     /*

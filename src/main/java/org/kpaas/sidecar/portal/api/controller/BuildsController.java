@@ -15,16 +15,16 @@ public class BuildsController {
     private BuildsService buildsService;
 
     @PostMapping(value = {"/builds"})
-    public CreateBuildResponse create(@RequestBody Map<String, String> requestData, String token) throws Exception {
+    public CreateBuildResponse create(@RequestBody Map<String, String> requestData) throws Exception {
         if (ObjectUtils.isEmpty(requestData.get("packageGuid"))) {
             // 추후 exception 처리
             return null;
         }
-        return buildsService.create(requestData.get("packageGuid"), token);
+        return buildsService.create(requestData.get("packageGuid"));
     }
 
     @GetMapping(value = {"/builds/{buildGuid}/get"})
-    public GetBuildResponse get(@PathVariable String buildGuid, String token) throws Exception {
-        return buildsService.get(buildGuid, token);
+    public GetBuildResponse get(@PathVariable String buildGuid) throws Exception {
+        return buildsService.get(buildGuid);
     }
 }

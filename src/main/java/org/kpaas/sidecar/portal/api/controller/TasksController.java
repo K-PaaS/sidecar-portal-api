@@ -17,12 +17,12 @@ public class TasksController {
     private TasksService tasksService;
 
     @GetMapping(value = {"/tasks/list"})
-    public ListTasksResponse list(@RequestParam(required = false)List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids, String token) throws Exception {
-        return tasksService.list(appGuids, orgGuids, spaceGuids, token);
+    public ListTasksResponse list(@RequestParam(required = false)List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids) throws Exception {
+        return tasksService.list(appGuids, orgGuids, spaceGuids);
     }
 
     @GetMapping(value = {"/tasks/{taskGuid}/get"})
-    public GetTaskResponse get(@PathVariable String taskGuid, String token) throws Exception {
-        return tasksService.get(taskGuid, token);
+    public GetTaskResponse get(@PathVariable String taskGuid) throws Exception {
+        return tasksService.get(taskGuid);
     }
 }

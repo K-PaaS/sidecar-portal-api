@@ -16,12 +16,12 @@ public class IsolationSegmentsController {
     private IsolationSegmentsService isolationSegmentsService;
 
     @PostMapping(value = {"/isolation_segments/create"})
-    public CreateIsolationSegmentResponse create(@RequestBody IsolationSegment isolationSegment, String token) throws Exception {
-        return isolationSegmentsService.create(isolationSegment, token);
+    public CreateIsolationSegmentResponse create(@RequestBody IsolationSegment isolationSegment) throws Exception {
+        return isolationSegmentsService.create(isolationSegment);
     }
 
     @GetMapping(value = {"/isolation_segments/list"})
-    public ListIsolationSegmentsResponse list(String token) throws Exception {
-        return isolationSegmentsService.list(token);
+    public ListIsolationSegmentsResponse list() throws Exception {
+        return isolationSegmentsService.list();
     }
 }

@@ -9,12 +9,12 @@ import java.util.List;
 
 @Service
 public class OrganizationsServiceV3 extends Common {
-    public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).organizationsV3().assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
+    public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String guid) {
+        return cloudFoundryClient(tokenProvider()).organizationsV3().assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
     }
 
-    public CreateOrganizationResponse create(Organization org, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateOrganizationResponse create(Organization org) {
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .create(CreateOrganizationRequest
                         .builder()
@@ -23,8 +23,8 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .delete(DeleteOrganizationRequest
                         .builder()
@@ -33,8 +33,8 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public GetOrganizationResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetOrganizationResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .get(GetOrganizationRequest
                         .builder()
@@ -43,8 +43,8 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public GetOrganizationDefaultDomainResponse getDefaultDomain(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetOrganizationDefaultDomainResponse getDefaultDomain(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .getDefaultDomain(GetOrganizationDefaultDomainRequest
                         .builder()
@@ -53,18 +53,18 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public GetOrganizationDefaultIsolationSegmentResponse getDeafultIsolationSegment(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).organizationsV3().getDefaultIsolationSegment(GetOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
+    public GetOrganizationDefaultIsolationSegmentResponse getDeafultIsolationSegment(String guid) {
+        return cloudFoundryClient(tokenProvider()).organizationsV3().getDefaultIsolationSegment(GetOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
     }
 
-    public GetOrganizationUsageSummaryResponse getUsageSummary(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).organizationsV3().getUsageSummary(GetOrganizationUsageSummaryRequest.builder().build()).block();
+    public GetOrganizationUsageSummaryResponse getUsageSummary(String guid) {
+        return cloudFoundryClient(tokenProvider()).organizationsV3().getUsageSummary(GetOrganizationUsageSummaryRequest.builder().build()).block();
     }
 
-    public ListOrganizationsResponse list(List<String> names, String token) {
+    public ListOrganizationsResponse list(List<String> names) {
         names = stringListNullCheck(names);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .list(ListOrganizationsRequest
                         .builder()
@@ -73,11 +73,11 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public ListOrganizationDomainsResponse listDomains(String orgGuid, List<String> domainGuids, List<String> names, String token) {
+    public ListOrganizationDomainsResponse listDomains(String orgGuid, List<String> domainGuids, List<String> names) {
         domainGuids = stringListNullCheck(domainGuids);
         names = stringListNullCheck(names);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .organizationsV3()
                 .listDomains(ListOrganizationDomainsRequest
                         .builder()
@@ -88,7 +88,7 @@ public class OrganizationsServiceV3 extends Common {
                 .block();
     }
 
-    public UpdateOrganizationResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).organizationsV3().update(UpdateOrganizationRequest.builder().build()).block();
+    public UpdateOrganizationResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).organizationsV3().update(UpdateOrganizationRequest.builder().build()).block();
     }
 }

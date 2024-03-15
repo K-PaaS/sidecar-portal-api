@@ -16,22 +16,22 @@ public class DomainsController {
     private DomainsServiceV3 domainsServiceV3;
 
     @PostMapping(value = {"/domains"})
-    public CreateDomainResponse create(@RequestBody Domain domain, String token) throws Exception {
-        return domainsServiceV3.create(domain ,token);
+    public CreateDomainResponse create(@RequestBody Domain domain) throws Exception {
+        return domainsServiceV3.create(domain);
     }
 
     @DeleteMapping(value = {"/domains/{domainGuid}"})
-    public String delete(@PathVariable String domainGuid, String token) throws Exception {
-        return domainsServiceV3.delete(domainGuid ,token);
+    public String delete(@PathVariable String domainGuid) throws Exception {
+        return domainsServiceV3.delete(domainGuid);
     }
 
     @GetMapping(value = {"/domains/{domainGuid}/get"})
-    public GetDomainResponse get(@PathVariable String domainGuid, String token) throws Exception {
-        return domainsServiceV3.get(domainGuid ,token);
+    public GetDomainResponse get(@PathVariable String domainGuid) throws Exception {
+        return domainsServiceV3.get(domainGuid);
     }
 
     @GetMapping(value = {"/domains/list"})
-    public ListDomainsResponse list(@RequestParam(required = false) List<String> names, @RequestParam(required = false) List<String> owningOrgGuids, String token) throws Exception {
-        return domainsServiceV3.list(names, owningOrgGuids, token);
+    public ListDomainsResponse list(@RequestParam(required = false) List<String> names, @RequestParam(required = false) List<String> owningOrgGuids) throws Exception {
+        return domainsServiceV3.list(names, owningOrgGuids);
     }
 }

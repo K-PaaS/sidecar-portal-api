@@ -63,7 +63,6 @@ public class OrganizationsService {
      * @return the roles list
      */
     public Object getROrganizationsList(Params params) {
-        System.out.println(params);
         Object result =  restTemplateService.send(org.kpaas.sidecar.portal.api.common.Constants.TARGET_SIDECAR_API,
                 "/v3/organizations", HttpMethod.GET, null, Map.class, params);
         return commonService.setResultModel(result, Constants.RESULT_STATUS_SUCCESS);

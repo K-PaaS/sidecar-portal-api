@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Service
 public class ServiceInstancesServiceV3 extends Common {
-    public CreateServiceInstanceResponse create(ServiceInstance serviceInstance, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateServiceInstanceResponse create(ServiceInstance serviceInstance) {
+        return cloudFoundryClient(tokenProvider())
                 .serviceInstancesV3()
                 .create(CreateServiceInstanceRequest
                         .builder()
@@ -22,8 +22,8 @@ public class ServiceInstancesServiceV3 extends Common {
                 .block();
     }
 
-    public Optional<String> delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public Optional<String> delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .serviceInstancesV3().
                 delete(DeleteServiceInstanceRequest
                         .builder()
@@ -32,23 +32,23 @@ public class ServiceInstancesServiceV3 extends Common {
                 .block();
     }
 
-    public GetServiceInstanceResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().get(GetServiceInstanceRequest.builder().build()).block();
+    public GetServiceInstanceResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().get(GetServiceInstanceRequest.builder().build()).block();
     }
 
-    public GetManagedServiceParametersResponse getManagedServiceParameters(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().getManagedServiceParameters(GetManagedServiceParametersRequest.builder().build()).block();
+    public GetManagedServiceParametersResponse getManagedServiceParameters(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getManagedServiceParameters(GetManagedServiceParametersRequest.builder().build()).block();
     }
 
-    public GetUserProvidedCredentialsResponse getUserProvidedCredentials(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().getUserProvidedCredentials(GetUserProvidedCredentialsRequest.builder().build()).block();
+    public GetUserProvidedCredentialsResponse getUserProvidedCredentials(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getUserProvidedCredentials(GetUserProvidedCredentialsRequest.builder().build()).block();
     }
 
-    public ListServiceInstancesResponse list(List<String> spaceGuid, List<String> serviceInstanceNames,String token) {
+    public ListServiceInstancesResponse list(List<String> spaceGuid, List<String> serviceInstanceNames) {
         spaceGuid = stringListNullCheck(spaceGuid);
         serviceInstanceNames = stringListNullCheck(serviceInstanceNames);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .serviceInstancesV3()
                 .list(ListServiceInstancesRequest
                         .builder()
@@ -58,19 +58,19 @@ public class ServiceInstancesServiceV3 extends Common {
                 .block();
     }
 
-    public ListSharedSpacesRelationshipResponse listSharedSpacesRelationship(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().listSharedSpacesRelationship(ListSharedSpacesRelationshipRequest.builder().build()).block();
+    public ListSharedSpacesRelationshipResponse listSharedSpacesRelationship(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().listSharedSpacesRelationship(ListSharedSpacesRelationshipRequest.builder().build()).block();
     }
 
-    public ShareServiceInstanceResponse share(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().share(ShareServiceInstanceRequest.builder().build()).block();
+    public ShareServiceInstanceResponse share(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().share(ShareServiceInstanceRequest.builder().build()).block();
     }
 
-    public Void unshare(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().unshare(UnshareServiceInstanceRequest.builder().build()).block();
+    public Void unshare(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().unshare(UnshareServiceInstanceRequest.builder().build()).block();
     }
 
-    public UpdateServiceInstanceResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).serviceInstancesV3().update(UpdateServiceInstanceRequest.builder().build()).block();
+    public UpdateServiceInstanceResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().update(UpdateServiceInstanceRequest.builder().build()).block();
     }
 }

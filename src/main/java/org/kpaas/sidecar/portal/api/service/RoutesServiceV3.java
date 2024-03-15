@@ -11,8 +11,8 @@ import java.util.List;
 
 @Service
 public class RoutesServiceV3 extends Common {
-    public CreateRouteResponse create(Route route, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateRouteResponse create(Route route) {
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .create(CreateRouteRequest
                         .builder()
@@ -47,8 +47,8 @@ public class RoutesServiceV3 extends Common {
                 .block();*/
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .delete(DeleteRouteRequest
                         .builder()
@@ -57,8 +57,8 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public GetRouteResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetRouteResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .get(GetRouteRequest
                         .builder()
@@ -67,8 +67,8 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public InsertRouteDestinationsResponse insertDestinations(String routeGuid, String appGuid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public InsertRouteDestinationsResponse insertDestinations(String routeGuid, String appGuid) {
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .insertDestinations(InsertRouteDestinationsRequest
                         .builder()
@@ -81,7 +81,7 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public ListRoutesResponse list(List<String> appGuids, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> paths, List<Integer> ports, List<String> spaceGuids, String token) {
+    public ListRoutesResponse list(List<String> appGuids, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> paths, List<Integer> ports, List<String> spaceGuids) {
         appGuids = stringListNullCheck(appGuids);
         domainGuids = stringListNullCheck(domainGuids);
         hosts = stringListNullCheck(hosts);
@@ -90,7 +90,7 @@ public class RoutesServiceV3 extends Common {
         spaceGuids = stringListNullCheck(spaceGuids);
         ports = integerListNullCheck(ports);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .list(ListRoutesRequest
                         .builder()
@@ -105,11 +105,11 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public ListRouteDestinationsResponse listDestinations(String routeGuid, List<String> appGuids, String token) {
+    public ListRouteDestinationsResponse listDestinations(String routeGuid, List<String> appGuids) {
         routeGuid = stringNullCheck(routeGuid);
         appGuids = stringListNullCheck(appGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .listDestinations(ListRouteDestinationsRequest
                         .builder()
@@ -119,25 +119,25 @@ public class RoutesServiceV3 extends Common {
                 .block();
     }
 
-    public Void removeDestinations(String routeGuid, String appGuid, String token) {
+    public Void removeDestinations(String routeGuid, String appGuid) {
         List<String> appGuids = new ArrayList<>();
         appGuids.add(appGuid);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .routesV3()
                 .removeDestinations(RemoveRouteDestinationsRequest
                         .builder()
                         .routeId(routeGuid)
-                        .destinationId(listDestinations(routeGuid, appGuids, token).getDestinations().get(0).getDestinationId())
+                        .destinationId(listDestinations(routeGuid, appGuids).getDestinations().get(0).getDestinationId())
                         .build())
                 .block();
     }
 
-    public ReplaceRouteDestinationsResponse replaceDestinations(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).routesV3().replaceDestinations(ReplaceRouteDestinationsRequest.builder().build()).block();
+    public ReplaceRouteDestinationsResponse replaceDestinations(String guid) {
+        return cloudFoundryClient(tokenProvider()).routesV3().replaceDestinations(ReplaceRouteDestinationsRequest.builder().build()).block();
     }
 
-    public UpdateRouteResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).routesV3().update(UpdateRouteRequest.builder().build()).block();
+    public UpdateRouteResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).routesV3().update(UpdateRouteRequest.builder().build()).block();
     }
 }

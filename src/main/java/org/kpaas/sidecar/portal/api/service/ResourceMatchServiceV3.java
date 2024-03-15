@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ResourceMatchServiceV3 extends Common {
-    public ListMatchingResourcesResponse list(String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public ListMatchingResourcesResponse list() {
+        return cloudFoundryClient(tokenProvider())
                 .resourceMatchV3()
                 .list(ListMatchingResourcesRequest
                         .builder()

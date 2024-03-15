@@ -16,13 +16,13 @@ public class sRolesController {
     private RolesServiceV3 rolesServiceV3;
 
     @PostMapping(value = {"/roles"})
-    public CreateRoleResponse create(@RequestBody Role role, String token) throws Exception {
-        return rolesServiceV3.create(role, token);
+    public CreateRoleResponse create(@RequestBody Role role) throws Exception {
+        return rolesServiceV3.create(role);
     }
 
     @DeleteMapping(value = {"/roles/{roleGuid}"})
-    public String delete(@PathVariable String roleGuid, String token) throws Exception {
-        return rolesServiceV3.delete(roleGuid, token);
+    public String delete(@PathVariable String roleGuid) throws Exception {
+        return rolesServiceV3.delete(roleGuid);
     }
 
     /*
@@ -36,7 +36,7 @@ public class sRolesController {
     * SPACE_MANAGER
     */
     @GetMapping(value = {"/roles/list"})
-    public ListRolesResponse list(@RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids, @RequestParam(required = false) List<String> usernames, @RequestParam(required = false) List<RoleType> types, @RequestParam(required = false) String roleGuid,String token) throws Exception {
-        return rolesServiceV3.list(orgGuids, spaceGuids, usernames, types, roleGuid, token);
+    public ListRolesResponse list(@RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids, @RequestParam(required = false) List<String> usernames, @RequestParam(required = false) List<RoleType> types, @RequestParam(required = false) String roleGuid) throws Exception {
+        return rolesServiceV3.list(orgGuids, spaceGuids, usernames, types, roleGuid);
     }
 }

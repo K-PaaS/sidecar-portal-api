@@ -17,48 +17,48 @@ public class PackagesController {
     private PackagesService packagesService;
 
     @PostMapping(value = {"/packages/{sourcePackageGuid}/copy/{appGuid}"})
-    public CopyPackageResponse copy(@PathVariable String sourcePackageGuid, @PathVariable String appGuid, String token) throws Exception {
-        return packagesService.copy(sourcePackageGuid, appGuid, token);
+    public CopyPackageResponse copy(@PathVariable String sourcePackageGuid, @PathVariable String appGuid) throws Exception {
+        return packagesService.copy(sourcePackageGuid, appGuid);
     }
 
     @PostMapping(value = {"/packages"})
-    public CreatePackageResponse create(@RequestBody Map<String, String> requestData, String token) throws Exception {
+    public CreatePackageResponse create(@RequestBody Map<String, String> requestData) throws Exception {
         if (ObjectUtils.isEmpty(requestData.get("appGuid"))) {
             // 추후 exception 처리
             return null;
         }
-        return packagesService.create(requestData.get("appGuid"), token);
+        return packagesService.create(requestData.get("appGuid"));
     }
 
     //보류
     @GetMapping(value = {"/packages/{packageGuid}/download"})
-    public Flux<byte[]> download(@PathVariable String packageGuid, String token) throws Exception {
-        return packagesService.download(packageGuid, token);
+    public Flux<byte[]> download(@PathVariable String packageGuid) throws Exception {
+        return packagesService.download(packageGuid);
     }
 
     @GetMapping(value = {"/packages/{packageGuid}/get"})
-    public GetPackageResponse get(@PathVariable String packageGuid, String token) throws Exception {
-        return packagesService.get(packageGuid, token);
+    public GetPackageResponse get(@PathVariable String packageGuid) throws Exception {
+        return packagesService.get(packageGuid);
     }
 
     @GetMapping(value = {"/packages/list"})
-    public ListPackagesResponse list(@RequestParam(required = false) List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids, String token) throws Exception {
-        return packagesService.list(appGuids, orgGuids, spaceGuids, token);
+    public ListPackagesResponse list(@RequestParam(required = false) List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids) throws Exception {
+        return packagesService.list(appGuids, orgGuids, spaceGuids);
     }
 
     @GetMapping(value = {"/packages/{packageGuid}/listDroplets"})
-    public ListPackageDropletsResponse listDroplets(@PathVariable String packageGuid, @RequestParam(required = false) List<String> dropletGuids, String token) throws Exception {
-        return packagesService.listDroplets(packageGuid, dropletGuids, token);
+    public ListPackageDropletsResponse listDroplets(@PathVariable String packageGuid, @RequestParam(required = false) List<String> dropletGuids) throws Exception {
+        return packagesService.listDroplets(packageGuid, dropletGuids);
     }
 
     @DeleteMapping(value = {"/packages/{packageGuid}/delete"})
-    public String delete(@PathVariable String packageGuid, String token) throws Exception {
-        return packagesService.delete(packageGuid, token);
+    public String delete(@PathVariable String packageGuid) throws Exception {
+        return packagesService.delete(packageGuid);
     }
 
     @PostMapping(value = {"/packages/{packageGuid}/upload"})
-    public UploadPackageResponse upload(@PathVariable String packageGuid, File file, String token) throws Exception {
-        return packagesService.upload(packageGuid, file, token);
+    public UploadPackageResponse upload(@PathVariable String packageGuid, File file) throws Exception {
+        return packagesService.upload(packageGuid, file);
     }
 
 

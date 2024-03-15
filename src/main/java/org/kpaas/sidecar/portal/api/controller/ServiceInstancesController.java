@@ -16,17 +16,17 @@ public class ServiceInstancesController {
     private ServiceInstancesServiceV3 serviceInstancesServiceV3;
 
     @GetMapping(value = {"/serviceInstances/list"})
-    public ListServiceInstancesResponse list(@RequestParam(required = false) List<String> spaceGuids, @RequestParam(required = false) List<String> serviceInstanceNames, String token) throws Exception {
-        return serviceInstancesServiceV3.list(spaceGuids, serviceInstanceNames, token);
+    public ListServiceInstancesResponse list(@RequestParam(required = false) List<String> spaceGuids, @RequestParam(required = false) List<String> serviceInstanceNames) throws Exception {
+        return serviceInstancesServiceV3.list(spaceGuids, serviceInstanceNames);
     }
 
     @PostMapping(value = {"/serviceInstances"})
-    public CreateServiceInstanceResponse create(@RequestBody ServiceInstance serviceInstance, String token) throws Exception {
-        return serviceInstancesServiceV3.create(serviceInstance, token);
+    public CreateServiceInstanceResponse create(@RequestBody ServiceInstance serviceInstance) throws Exception {
+        return serviceInstancesServiceV3.create(serviceInstance);
     }
 
     @DeleteMapping(value = {"/serviceInstances/{serviceInstanceGuid}"})
-    public Optional<String> delete(@PathVariable String serviceInstanceGuid, String token) throws Exception {
-        return serviceInstancesServiceV3.delete(serviceInstanceGuid, token);
+    public Optional<String> delete(@PathVariable String serviceInstanceGuid) throws Exception {
+        return serviceInstancesServiceV3.delete(serviceInstanceGuid);
     }
 }

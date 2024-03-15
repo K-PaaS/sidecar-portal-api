@@ -14,27 +14,27 @@ public class ProcessesController {
     private ProcessesService processesService;
 
     @GetMapping(value = {"/processes/{processGuid}/get"})
-    public GetProcessResponse get(@PathVariable String processGuid, String token) throws Exception {
-        return processesService.get(processGuid, token);
+    public GetProcessResponse get(@PathVariable String processGuid) throws Exception {
+        return processesService.get(processGuid);
     }
 
     @GetMapping(value = {"/processes/{processGuid}/getStatistics"})
-    public GetProcessStatisticsResponse getStatistics(@PathVariable String processGuid, String token) throws Exception {
-        return processesService.getStatistics(processGuid, token);
+    public GetProcessStatisticsResponse getStatistics(@PathVariable String processGuid) throws Exception {
+        return processesService.getStatistics(processGuid);
     }
 
     @GetMapping(value = {"/processes/list"})
-    public ListProcessesResponse list(@RequestParam(required = false) List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids, String token) throws Exception {
-        return processesService.list(appGuids, orgGuids, spaceGuids, token);
+    public ListProcessesResponse list(@RequestParam(required = false) List<String> appGuids, @RequestParam(required = false) List<String> orgGuids, @RequestParam(required = false) List<String> spaceGuids) throws Exception {
+        return processesService.list(appGuids, orgGuids, spaceGuids);
     }
 
     @PatchMapping(value = {"/processes/{processGuid}"})
-    public UpdateProcessResponse update(@PathVariable String processGuid, @RequestBody Process process, String token) throws Exception {
-        return processesService.update(processGuid, process, token);
+    public UpdateProcessResponse update(@PathVariable String processGuid, @RequestBody Process process) throws Exception {
+        return processesService.update(processGuid, process);
     }
 
     @PostMapping(value = {"/processes/{processGuid}/scale"})
-    public ScaleProcessResponse scale(@PathVariable String processGuid, @RequestBody Process process, String token) throws Exception {
-        return processesService.scale(processGuid, process, token);
+    public ScaleProcessResponse scale(@PathVariable String processGuid, @RequestBody Process process) throws Exception {
+        return processesService.scale(processGuid, process);
     }
 }

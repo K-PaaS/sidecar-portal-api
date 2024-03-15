@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IsolationSegmentsService extends Common {
-    public AddIsolationSegmentOrganizationEntitlementResponse addOrganizationEntitlement(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().addOrganizationEntitlement(AddIsolationSegmentOrganizationEntitlementRequest.builder().build()).block();
+    public AddIsolationSegmentOrganizationEntitlementResponse addOrganizationEntitlement(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().addOrganizationEntitlement(AddIsolationSegmentOrganizationEntitlementRequest.builder().build()).block();
     }
 
-    public CreateIsolationSegmentResponse create(IsolationSegment isolationSegment, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateIsolationSegmentResponse create(IsolationSegment isolationSegment) {
+        return cloudFoundryClient(tokenProvider())
                 .isolationSegments()
                 .create(CreateIsolationSegmentRequest
                         .builder()
@@ -21,16 +21,16 @@ public class IsolationSegmentsService extends Common {
                 .block();
     }
 
-    public Void delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().delete(DeleteIsolationSegmentRequest.builder().build()).block();
+    public Void delete(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().delete(DeleteIsolationSegmentRequest.builder().build()).block();
     }
 
-    public GetIsolationSegmentResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().get(GetIsolationSegmentRequest.builder().build()).block();
+    public GetIsolationSegmentResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().get(GetIsolationSegmentRequest.builder().build()).block();
     }
 
-    public ListIsolationSegmentsResponse list(String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public ListIsolationSegmentsResponse list() {
+        return cloudFoundryClient(tokenProvider())
                 .isolationSegments()
                 .list(ListIsolationSegmentsRequest
                         .builder()
@@ -38,23 +38,23 @@ public class IsolationSegmentsService extends Common {
                 .block();
     }
 
-    public ListIsolationSegmentEntitledOrganizationsResponse listEntitledOrganizations(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().listEntitledOrganizations(ListIsolationSegmentEntitledOrganizationsRequest.builder().build()).block();
+    public ListIsolationSegmentEntitledOrganizationsResponse listEntitledOrganizations(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().listEntitledOrganizations(ListIsolationSegmentEntitledOrganizationsRequest.builder().build()).block();
     }
 
-    public ListIsolationSegmentOrganizationsRelationshipResponse listOrganizationsRelationship(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().listOrganizationsRelationship(ListIsolationSegmentOrganizationsRelationshipRequest.builder().build()).block();
+    public ListIsolationSegmentOrganizationsRelationshipResponse listOrganizationsRelationship(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().listOrganizationsRelationship(ListIsolationSegmentOrganizationsRelationshipRequest.builder().build()).block();
     }
 
-    public ListIsolationSegmentSpacesRelationshipResponse listSpacesRelationship(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().listSpacesRelationship(ListIsolationSegmentSpacesRelationshipRequest.builder().build()).block();
+    public ListIsolationSegmentSpacesRelationshipResponse listSpacesRelationship(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().listSpacesRelationship(ListIsolationSegmentSpacesRelationshipRequest.builder().build()).block();
     }
 
-    public String removeOrganizationEntitlement(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().removeOrganizationEntitlement(RemoveIsolationSegmentOrganizationEntitlementRequest.builder().build()).block().toString();
+    public String removeOrganizationEntitlement(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().removeOrganizationEntitlement(RemoveIsolationSegmentOrganizationEntitlementRequest.builder().build()).block().toString();
     }
 
-    public UpdateIsolationSegmentResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).isolationSegments().update(UpdateIsolationSegmentRequest.builder().build()).block();
+    public UpdateIsolationSegmentResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).isolationSegments().update(UpdateIsolationSegmentRequest.builder().build()).block();
     }
 }

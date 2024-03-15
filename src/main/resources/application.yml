@@ -9,8 +9,8 @@ spring:
   application:
     name: sidecar-api
   security:
-    username: <username>
-    password: <password>
+    username: admin
+    password: admin
   # swaggger를 위한 설정
   mvc:
     pathmatch:
@@ -37,10 +37,13 @@ spring:
           expiry-threshold: 1m
 
 sidecar:
-  apiHost: <apihost>
+  apiHost: ${SIDECAR_APIHOST}
   #test를 위한 Token 설정
-  token: <token>
-  tokenKind: <token kind>
+  token: ${SIDECAR_TOKEN}
+  #tokenKind: "clientcert"
+  tokenKind: "bearer"
+
+
 
 
 #logging:
@@ -274,4 +277,4 @@ cpTerraman:
 
 
 sidecarApi:
-  url: https://api.paas-ta-dev06.kr
+  url: ${SIDECAR_HTTPSAPIHOST}

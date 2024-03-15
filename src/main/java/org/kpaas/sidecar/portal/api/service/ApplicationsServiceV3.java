@@ -12,9 +12,8 @@ import java.util.List;
 
 @Service
 public class ApplicationsServiceV3 extends Common{
-    public CreateApplicationResponse create(Application app, String token) {
-
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateApplicationResponse create(Application app) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .create(CreateApplicationRequest
                         .builder()
@@ -25,8 +24,8 @@ public class ApplicationsServiceV3 extends Common{
     }
 
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .delete(DeleteApplicationRequest
                         .builder()
@@ -35,8 +34,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationCurrentDropletResponse getCurrentDroplet(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationCurrentDropletResponse getCurrentDroplet(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .getCurrentDroplet(GetApplicationCurrentDropletRequest
                         .builder()
@@ -45,8 +44,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationEnvironmentResponse getEnvironment(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationEnvironmentResponse getEnvironment(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .getEnvironment(GetApplicationEnvironmentRequest
                         .builder()
@@ -55,8 +54,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationProcessResponse getProcess(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationProcessResponse getProcess(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .getProcess(GetApplicationProcessRequest
                         .builder()
@@ -66,8 +65,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationSshEnabledResponse getSshEnabled(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationSshEnabledResponse getSshEnabled(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .getSshEnabled(GetApplicationSshEnabledRequest
                         .builder()
@@ -76,8 +75,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationProcessStatisticsResponse getProcessStatistics(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationProcessStatisticsResponse getProcessStatistics(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .getProcessStatistics(GetApplicationProcessStatisticsRequest
                         .builder()
@@ -86,12 +85,12 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationsResponse list(List<String> names, List<String> orgGuids, List<String> spaceGuids, String token) {
+    public ListApplicationsResponse list(List<String> names, List<String> orgGuids, List<String> spaceGuids) throws InterruptedException {
         names = stringListNullCheck(names);
         orgGuids = stringListNullCheck(orgGuids);
         spaceGuids = stringListNullCheck(spaceGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .list(ListApplicationsRequest
                         .builder()
@@ -102,10 +101,10 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationProcessesResponse listProcesses(String appGuid, List<String> processGuids, String token) {
+    public ListApplicationProcessesResponse listProcesses(String appGuid, List<String> processGuids) {
         processGuids = stringListNullCheck(processGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .listProcesses(ListApplicationProcessesRequest
                         .builder()
@@ -116,12 +115,12 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationTasksResponse listTasks(String appGuid, List<String> names, List<String> sequenceGuids, List<String> taskGuids, String token) {
+    public ListApplicationTasksResponse listTasks(String appGuid, List<String> names, List<String> sequenceGuids, List<String> taskGuids) {
         names = stringListNullCheck(names);
         sequenceGuids = stringListNullCheck(sequenceGuids);
         taskGuids = stringListNullCheck(taskGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .listTasks(ListApplicationTasksRequest
                         .builder()
@@ -133,8 +132,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public RestartApplicationResponse restart(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public RestartApplicationResponse restart(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .restart(RestartApplicationRequest
                         .builder()
@@ -143,8 +142,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ScaleApplicationResponse scale(Application app, String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public ScaleApplicationResponse scale(Application app, String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .scale(ScaleApplicationRequest
                         .builder()
@@ -157,8 +156,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public SetApplicationCurrentDropletResponse setCurrentDroplet(String appGuid, String dropletGuid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public SetApplicationCurrentDropletResponse setCurrentDroplet(String appGuid, String dropletGuid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .setCurrentDroplet(SetApplicationCurrentDropletRequest
                         .builder()
@@ -168,8 +167,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public StartApplicationResponse start(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public StartApplicationResponse start(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .start(StartApplicationRequest
                         .builder()
@@ -178,8 +177,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public StopApplicationResponse stop(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public StopApplicationResponse stop(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .stop(StopApplicationRequest
                         .builder()
@@ -188,8 +187,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public UpdateApplicationResponse update(Application app, String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public UpdateApplicationResponse update(Application app, String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .update(UpdateApplicationRequest
                         .builder()
@@ -199,8 +198,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public UpdateApplicationEnvironmentVariablesResponse updateEnvironmentVariables(Application app, String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public UpdateApplicationEnvironmentVariablesResponse updateEnvironmentVariables(Application app, String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .updateEnvironmentVariables(UpdateApplicationEnvironmentVariablesRequest
                         .builder()
@@ -210,7 +209,7 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public ListApplicationRoutesResponse listRoutes(String appGuid, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> spaceGuids, String token) {
+    public ListApplicationRoutesResponse listRoutes(String appGuid, List<String> domainGuids, List<String> hosts, List<String> orgGuids, List<String> spaceGuids) {
         if ( domainGuids == null || domainGuids.isEmpty() ){
             domainGuids = new ArrayList<>();
         }
@@ -224,7 +223,7 @@ public class ApplicationsServiceV3 extends Common{
             spaceGuids = new ArrayList<>();
         }
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .listRoutes(ListApplicationRoutesRequest
                         .builder()
@@ -237,8 +236,8 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetApplicationResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .get(GetApplicationRequest
                         .builder()
@@ -247,33 +246,33 @@ public class ApplicationsServiceV3 extends Common{
                 .block();
     }
 
-    public GetApplicationCurrentDropletRelationshipResponse getCurrentDropletRelationship(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().getCurrentDropletRelationship(GetApplicationCurrentDropletRelationshipRequest.builder().build()).block();
+    public GetApplicationCurrentDropletRelationshipResponse getCurrentDropletRelationship(String guid) {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().getCurrentDropletRelationship(GetApplicationCurrentDropletRelationshipRequest.builder().build()).block();
     }
 
-    public GetApplicationFeatureResponse getFeature(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().getFeature(GetApplicationFeatureRequest.builder().build()).block();
+    public GetApplicationFeatureResponse getFeature(String guid) {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().getFeature(GetApplicationFeatureRequest.builder().build()).block();
     }
-    public GetApplicationPermissionsResponse getPermissions(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().getPermissions(GetApplicationPermissionsRequest.builder().build()).block();
+    public GetApplicationPermissionsResponse getPermissions(String guid) {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().getPermissions(GetApplicationPermissionsRequest.builder().build()).block();
     }
 
 
 
 
-    public ListApplicationBuildsResponse listBuilds(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().listBuilds(ListApplicationBuildsRequest.builder().build()).block();
+    public ListApplicationBuildsResponse listBuilds() {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().listBuilds(ListApplicationBuildsRequest.builder().build()).block();
     }
-    public ListApplicationDropletsResponse listDroplets(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().listDroplets(ListApplicationDropletsRequest.builder().build()).block();
+    public ListApplicationDropletsResponse listDroplets() {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().listDroplets(ListApplicationDropletsRequest.builder().build()).block();
     }
-    public ListApplicationFeaturesResponse listFeatures(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().listFeatures(ListApplicationFeaturesRequest.builder().build()).block();
+    public ListApplicationFeaturesResponse listFeatures() {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().listFeatures(ListApplicationFeaturesRequest.builder().build()).block();
     }
-    public ListApplicationPackagesResponse listPackages(String appGuid, List<String> packageGuids, String token) {
+    public ListApplicationPackagesResponse listPackages(String appGuid, List<String> packageGuids) {
         packageGuids = stringListNullCheck(packageGuids);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .listPackages(ListApplicationPackagesRequest
                         .builder()
@@ -288,13 +287,13 @@ public class ApplicationsServiceV3 extends Common{
 
 
 
-    public Void terminateInstance(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().terminateInstance(TerminateApplicationInstanceRequest.builder().build()).block();
+    public Void terminateInstance(String guid) {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().terminateInstance(TerminateApplicationInstanceRequest.builder().build()).block();
     }
 
 
-    public UpdateApplicationFeatureResponse updateFeature(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).applicationsV3().updateFeature(UpdateApplicationFeatureRequest.builder().build()).block();
+    public UpdateApplicationFeatureResponse updateFeature(String guid) {
+        return cloudFoundryClient(tokenProvider()).applicationsV3().updateFeature(UpdateApplicationFeatureRequest.builder().build()).block();
     }
 
 

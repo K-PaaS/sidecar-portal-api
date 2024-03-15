@@ -40,8 +40,7 @@ import static org.container.platform.api.common.Constants.CHECK_Y;
 public class CustomJwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-	//
-	public JwtUtil jwtTokenUtil;
+	protected JwtUtil jwtTokenUtil;
 
 	@Autowired
 	public CustomJwtAuthenticationFilter(JwtUtil jwtUtil) {

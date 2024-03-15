@@ -47,27 +47,27 @@ public class SidecarController {
     String buildGuid;
     String dropletGuid;
 
-    public void push(@RequestBody Application app, @RequestBody Route route, String token) throws Exception {
+    public void push(@RequestBody Application app, @RequestBody Route route) throws Exception {
         // 1. JAVA 내부에서 사용할 임시 파일을 생성 - 생략
         File file = null;
 
         // 2. App 생성
         //Application app = null;
-        appGuid = appServiceV3.create(app, token).getId();
+        appGuid = appServiceV3.create(app).getId();
 
         // 3. ROUTE 생성
         //Route route = null;
-        routeGuid = routesServiceV3.create(route, token).getId();
+        routeGuid = routesServiceV3.create(route).getId();
 
         // 4. APP - ROUTE 맵핑
-        routesServiceV3.insertDestinations(routeGuid, appGuid, token);
+        routesServiceV3.insertDestinations(routeGuid, appGuid);
 
         // 5. 패키지 생성
-        packageGuid = packagesService.create(appGuid, token).getId();
+        packageGuid = packagesService.create(appGuid).getId();
 
         // 6. 패키지에 임시 파일을 업로드
 
-        packagesService.upload(packageGuid, file, token);
+        packagesService.upload(packageGuid, file);
 
         // 7. 빌드 생성
         Thread th = new Thread(
@@ -75,7 +75,7 @@ public class SidecarController {
                     @Override
                     public void run() {
                         try {
-                            CreateBuildResponse createBuildResponse = buildsService.create(packageGuid, token);
+                            CreateBuildResponse createBuildResponse = buildsService.create(packageGuid);
                             buildGuid = createBuildResponse.getId();
                             dropletGuid = createBuildResponse.getDroplet().getId();
 
@@ -87,7 +87,7 @@ public class SidecarController {
 
                             // 빌드 확인 중 = STAGED
                             while(true){
-                                if( buildsService.get(buildGuid, token).getState().getValue().equals("STAGED") ) {
+                                if( buildsService.get(buildGuid).getState().getValue().equals("STAGED") ) {
                                     break;
                                 }
                                 if ( System.currentTimeMillis() > end ){
@@ -96,11 +96,11 @@ public class SidecarController {
                                 Thread.sleep(1000);
                             }
 
-                            appServiceV3.setCurrentDroplet(appGuid, dropletGuid, token);
+                            appServiceV3.setCurrentDroplet(appGuid, dropletGuid);
                             //앱 실행버튼이 on일때
                             if (true) {
                                 // 8. 앱 시작
-                                appServiceV3.start(appGuid, token);
+                                appServiceV3.start(appGuid);
                             }
                         } catch (Exception e) {
                             // TODO Auto-generated catch block

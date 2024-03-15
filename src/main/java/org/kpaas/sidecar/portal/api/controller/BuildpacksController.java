@@ -12,7 +12,7 @@ public class BuildpacksController {
     private BuildpacksServiceV3 buildpacksServiceV3;
 
     @GetMapping(value = {"/buildpacks/list"})
-    public ListBuildpacksResponse list(String token) throws Exception {
-        return buildpacksServiceV3.list(token);
+    public ListBuildpacksResponse list() throws Exception {
+        return buildpacksServiceV3.list();
     }
 }

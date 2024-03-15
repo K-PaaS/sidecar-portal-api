@@ -9,9 +9,9 @@ import java.util.List;
 
 @Service
 public class SpacesServiceV3 extends Common {
-    public ApplyManifestResponse applyManifest(String guid, String token) {
+    public ApplyManifestResponse applyManifest(String guid) {
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .spacesV3()
                 .applyManifest(ApplyManifestRequest
                         .builder()
@@ -21,12 +21,12 @@ public class SpacesServiceV3 extends Common {
                 .block();
     }
 
-    public AssignSpaceIsolationSegmentResponse assignIsolationSegment(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).spacesV3().assignIsolationSegment(AssignSpaceIsolationSegmentRequest.builder().build()).block();
+    public AssignSpaceIsolationSegmentResponse assignIsolationSegment(String guid) {
+        return cloudFoundryClient(tokenProvider()).spacesV3().assignIsolationSegment(AssignSpaceIsolationSegmentRequest.builder().build()).block();
     }
 
-    public CreateSpaceResponse create(Space space, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateSpaceResponse create(Space space) {
+        return cloudFoundryClient(tokenProvider())
                 .spacesV3()
                 .create(CreateSpaceRequest
                         .builder()
@@ -36,8 +36,8 @@ public class SpacesServiceV3 extends Common {
                 .block();
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .spacesV3()
                 .delete(DeleteSpaceRequest
                         .builder()
@@ -46,12 +46,12 @@ public class SpacesServiceV3 extends Common {
                 .block();
     }
 
-    public String deleteUnmappedRoutes(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).spacesV3().deleteUnmappedRoutes(DeleteUnmappedRoutesRequest.builder().build()).block();
+    public String deleteUnmappedRoutes(String guid) {
+        return cloudFoundryClient(tokenProvider()).spacesV3().deleteUnmappedRoutes(DeleteUnmappedRoutesRequest.builder().build()).block();
     }
 
-    public GetSpaceResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetSpaceResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .spacesV3()
                 .get(GetSpaceRequest
                         .builder()
@@ -60,15 +60,15 @@ public class SpacesServiceV3 extends Common {
                 .block();
     }
 
-    public GetSpaceIsolationSegmentResponse getIsolationSegment(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).spacesV3().getIsolationSegment(GetSpaceIsolationSegmentRequest.builder().build()).block();
+    public GetSpaceIsolationSegmentResponse getIsolationSegment(String guid) {
+        return cloudFoundryClient(tokenProvider()).spacesV3().getIsolationSegment(GetSpaceIsolationSegmentRequest.builder().build()).block();
     }
 
-    public ListSpacesResponse list(List<String> orgGuids, List<String> names, String token) {
+    public ListSpacesResponse list(List<String> orgGuids, List<String> names) {
         orgGuids = stringListNullCheck(orgGuids);
         names = stringListNullCheck(names);
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .spacesV3()
                 .list(ListSpacesRequest
                         .builder()
@@ -78,7 +78,7 @@ public class SpacesServiceV3 extends Common {
                 .block();
     }
 
-    public UpdateSpaceResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).spacesV3().update(UpdateSpaceRequest.builder().build()).block();
+    public UpdateSpaceResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).spacesV3().update(UpdateSpaceRequest.builder().build()).block();
     }
 }

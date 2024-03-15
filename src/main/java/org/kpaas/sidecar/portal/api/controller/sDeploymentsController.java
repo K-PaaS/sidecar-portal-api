@@ -16,17 +16,17 @@ public class sDeploymentsController {
     private DeploymentsServiceV3 deploymentsServiceV3;
 
     @PostMapping(value = {"/deployments/{deploymentGuid}/cancel"})
-    public CancelDeploymentResponse cancel(@PathVariable String deploymentGuid, String token) throws Exception {
-        return deploymentsServiceV3.cancel(deploymentGuid, token);
+    public CancelDeploymentResponse cancel(@PathVariable String deploymentGuid) throws Exception {
+        return deploymentsServiceV3.cancel(deploymentGuid);
     }
 
     @GetMapping(value = {"/deployments/{deploymentGuid}/get"})
-    public GetDeploymentResponse get(@PathVariable String deploymentGuid, String token) throws Exception {
-        return deploymentsServiceV3.get(deploymentGuid, token);
+    public GetDeploymentResponse get(@PathVariable String deploymentGuid) throws Exception {
+        return deploymentsServiceV3.get(deploymentGuid);
     }
 
     @GetMapping(value = {"/deployments/list"})
-    public ListDeploymentsResponse list(String token) throws Exception {
-        return deploymentsServiceV3.list(token);
+    public ListDeploymentsResponse list() throws Exception {
+        return deploymentsServiceV3.list();
     }
 }

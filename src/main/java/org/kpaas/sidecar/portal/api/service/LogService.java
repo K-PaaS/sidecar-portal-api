@@ -19,8 +19,8 @@ public class LogService extends Common {
     }
 
 
-    public Batch getLog(String guid, String time, int limit, boolean isDescending, String envelope_types, String token) {
-        TokenProvider tokenProvider = tokenProvider(token);
+    public Batch getLog(String guid, String time, int limit, boolean isDescending, String envelope_types) {
+        TokenProvider tokenProvider = tokenProvider();
 
         String reqUrl = apiHost + "/api/v1/read/" + guid  + "?" + (isDescending ? "descending=true&" : "") + "envelope_types=" + envelope_types + (limit == 0  ? "" : "&limit=" + limit) +"&start_time=" + time;
         Map logmap = new HashMap();//restTemplateService.cfSend(token, reqUrl, HttpMethod.GET, null, Map.class);

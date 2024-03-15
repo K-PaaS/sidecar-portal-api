@@ -5,7 +5,7 @@ import org.cloudfoundry.client.v2.blobstores.DeleteBlobstoreBuildpackCachesRespo
 import org.kpaas.sidecar.portal.api.common.Common;
 
 public class BlobstoresService extends Common {
-    public DeleteBlobstoreBuildpackCachesResponse deleteBuildpackCaches(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).blobstores().deleteBuildpackCaches(DeleteBlobstoreBuildpackCachesRequest.builder().build()).block();
+    public DeleteBlobstoreBuildpackCachesResponse deleteBuildpackCaches(String guid) {
+        return cloudFoundryClient(tokenProvider()).blobstores().deleteBuildpackCaches(DeleteBlobstoreBuildpackCachesRequest.builder().build()).block();
     }
 }

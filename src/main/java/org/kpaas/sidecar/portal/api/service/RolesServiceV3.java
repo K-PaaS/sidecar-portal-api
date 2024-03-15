@@ -10,8 +10,8 @@ import java.util.List;
 
 @Service
 public class RolesServiceV3 extends Common {
-    public CreateRoleResponse create(Role role, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateRoleResponse create(Role role) {
+        return cloudFoundryClient(tokenProvider())
                 .rolesV3()
                 .create(CreateRoleRequest
                         .builder()
@@ -45,8 +45,8 @@ public class RolesServiceV3 extends Common {
                 .block();*/
     }
 
-    public String delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public String delete(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .rolesV3()
                 .delete(DeleteRoleRequest
                         .builder()
@@ -55,11 +55,11 @@ public class RolesServiceV3 extends Common {
                 .block();
     }
 
-    public GetRoleResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).rolesV3().get(GetRoleRequest.builder().build()).block();
+    public GetRoleResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider()).rolesV3().get(GetRoleRequest.builder().build()).block();
     }
 
-    public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, String roleGuid, String token) {
+    public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, String roleGuid) {
         orgGuids = stringListNullCheck(orgGuids);
         spaceGuids = stringListNullCheck(spaceGuids);
         usernames = stringListNullCheck(usernames);
@@ -68,7 +68,7 @@ public class RolesServiceV3 extends Common {
             types = new ArrayList<>();
         }
 
-        return cloudFoundryClient(tokenProvider(token))
+        return cloudFoundryClient(tokenProvider())
                 .rolesV3()
                 .list(ListRolesRequest
                         .builder()

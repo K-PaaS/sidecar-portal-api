@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ServicePlansServiceV3 extends Common {
-    public Void delete(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).servicePlansV3().delete(DeleteServicePlanRequest.builder().build()).block();
+    public Void delete(String guid) {
+        return cloudFoundryClient(tokenProvider()).servicePlansV3().delete(DeleteServicePlanRequest.builder().build()).block();
     }
 
-    public GetServicePlanResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).servicePlansV3().get(GetServicePlanRequest.builder().build()).block();
+    public GetServicePlanResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider()).servicePlansV3().get(GetServicePlanRequest.builder().build()).block();
     }
 
-    public ListServicePlansResponse list(String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public ListServicePlansResponse list() {
+        return cloudFoundryClient(tokenProvider())
                 .servicePlansV3()
                 .list(ListServicePlansRequest
                         .builder()
@@ -32,11 +32,11 @@ public class ServicePlansServiceV3 extends Common {
                 .block();
     }
 
-    public UpdateServicePlanResponse update(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).servicePlansV3().update(UpdateServicePlanRequest.builder().build()).block();
+    public UpdateServicePlanResponse update(String guid) {
+        return cloudFoundryClient(tokenProvider()).servicePlansV3().update(UpdateServicePlanRequest.builder().build()).block();
     }
 
-    public UpdateServicePlanVisibilityResponse updateVisibility(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).servicePlansV3().updateVisibility(UpdateServicePlanVisibilityRequest.builder().build()).block();
+    public UpdateServicePlanVisibilityResponse updateVisibility(String guid) {
+        return cloudFoundryClient(tokenProvider()).servicePlansV3().updateVisibility(UpdateServicePlanVisibilityRequest.builder().build()).block();
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BuildsService extends Common {
-    public CreateBuildResponse create(String packageGuid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public CreateBuildResponse create(String packageGuid) {
+        return cloudFoundryClient(tokenProvider())
                 .builds()
                 .create(CreateBuildRequest
                         .builder()
@@ -18,8 +18,8 @@ public class BuildsService extends Common {
                 .block();
     }
 
-    public GetBuildResponse get(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token))
+    public GetBuildResponse get(String guid) {
+        return cloudFoundryClient(tokenProvider())
                 .builds()
                 .get(GetBuildRequest
                         .builder()
@@ -28,7 +28,7 @@ public class BuildsService extends Common {
                 .block();
     }
 
-    public ListBuildsResponse list(String guid, String token) {
-        return cloudFoundryClient(tokenProvider(token)).builds().list(ListBuildsRequest.builder().build()).block();
+    public ListBuildsResponse list(String guid) {
+        return cloudFoundryClient(tokenProvider()).builds().list(ListBuildsRequest.builder().build()).block();
     }
 }
