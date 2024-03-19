@@ -3,7 +3,7 @@ package org.kpaas.sidecar.portal.api.service;
 import org.cloudfoundry.reactor.TokenProvider;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kpaas.sidecar.portal.api.common.Common;
-import org.kpaas.sidecar.portal.api.common.RestTemplateService;
+import org.kpaas.sidecar.portal.api.common.SidecarRestTemplateService;
 import org.kpaas.sidecar.portal.api.model.Batch;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import java.util.Map;
 
 @Service
 public class LogService extends Common {
-    private final RestTemplateService restTemplateService;
+    private final SidecarRestTemplateService restTemplateService;
 
-    public LogService(RestTemplateService restTemplateService) {
+    public LogService(SidecarRestTemplateService restTemplateService) {
         this.restTemplateService = restTemplateService;
     }
 

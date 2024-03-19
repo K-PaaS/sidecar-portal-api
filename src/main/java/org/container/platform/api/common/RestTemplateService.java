@@ -27,9 +27,8 @@ import static org.container.platform.api.common.Constants.*;
 /**
  * Rest Template Service 클래스
  *
- * modified Only import Qualifier("jwtUtil")  //2024.02.29 sunny
- * modified Only 접끈자 private > protected  //2024-02-28 sunny
- * propertyService, commonService, vaultService, base64Authorization, baseUrl, setApiUrlAuthorization()
+ * modified Only 접근자 private > protected  //2024-02-28 sunny
+ * propertyService, commonService, base64Authorization, baseUrl, setApiUrlAuthorization()
  *
  * @author hrjin
  * @version 1.0
@@ -47,7 +46,7 @@ public class RestTemplateService {
     private final RestTemplate shortRestTemplate;
     protected final PropertyService propertyService;
     protected final CommonService commonService;
-    protected final VaultService vaultService;
+    private final VaultService vaultService;
     protected String base64Authorization;
     protected String baseUrl;
 
@@ -150,11 +149,11 @@ public class RestTemplateService {
         HttpEntity<Object> reqEntity;
         if (bodyObject == null) {
             reqEntity = new HttpEntity<>(reqHeaders);
-        } else  {
+        } else {
             reqEntity = new HttpEntity<>(bodyObject, reqHeaders);
         }
 
-        LOGGER.info("<T> T SEND :: REQUEST: {} BASE-URL: {}, CONTENT-TYPE: {}", CommonUtils.loggerReplace(httpMethod), baseUrl+CommonUtils.loggerReplace(reqUrl), CommonUtils.loggerReplace(reqHeaders.get(CONTENT_TYPE)));
+        LOGGER.info("<T> T SEND :: REQUEST: {} BASE-URL: {}, CONTENT-TYPE: {}", CommonUtils.loggerReplace(httpMethod), CommonUtils.loggerReplace(reqUrl), CommonUtils.loggerReplace(reqHeaders.get(CONTENT_TYPE)));
 
         ResponseEntity<T> resEntity = null;
 

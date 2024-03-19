@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 3333
   auth:
     valid: N
 
@@ -42,6 +42,10 @@ sidecar:
   token: ${SIDECAR_TOKEN}
   #tokenKind: "clientcert"
   tokenKind: "bearer"
+  rootNamespace: ${SIDECAR_ROOTNAMESPACE}
+  roles:
+    admin: korifi-controllers-admin
+    #spacedeveloper: korifi-controllers-organization-user, korifi-controllers-space-developer, korifi-controllers-root-namespace-user
 
 
 

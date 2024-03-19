@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class sDeploymentsController {
+@RestController("sDeploymentsController")
+public class DeploymentsController {
     @Autowired
     private DeploymentsServiceV3 deploymentsServiceV3;
 

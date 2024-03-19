@@ -5,11 +5,17 @@ import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Service("sPropertyService")
+@Service("sidecarPropertyService")
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class PropertyService extends org.container.platform.api.common.PropertyService {
+public class SidecarPropertyService extends org.container.platform.api.common.PropertyService {
 
     @Value("${sidecarApi.url}")
     private String sidecarApiUrl;
+
+    @Value("${sidecar.rootNamespace}")
+    private String sidecarRootNamespace;
+
+    @Value("${sidecar.roles.admin}")
+    private String sidecarRolesAdmin;
 }
