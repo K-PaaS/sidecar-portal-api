@@ -10,8 +10,8 @@ import org.container.platform.api.users.Users;
 import org.container.platform.api.users.UsersList;
 import org.container.platform.api.users.UsersService;
 import org.kpaas.sidecar.portal.api.common.Constants;
-import org.kpaas.sidecar.portal.api.common.PropertyService;
-import org.kpaas.sidecar.portal.api.common.RestTemplateService;
+import org.kpaas.sidecar.portal.api.common.SidecarPropertyService;
+import org.kpaas.sidecar.portal.api.common.SidecarRestTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
@@ -30,11 +30,11 @@ import java.util.Map;
  */
 @Service
 public class OrganizationsService {
-    @Qualifier("sRestTemplateService")
-    private final RestTemplateService restTemplateService;
+    @Qualifier("sidecarRestTemplateService")
+    private final SidecarRestTemplateService restTemplateService;
     private final CommonService commonService;
-    @Qualifier("sPropertyService")
-    private final PropertyService propertyService;
+    @Qualifier("sidecarPropertyService")
+    private final SidecarPropertyService propertyService;
     private final ResultStatusService resultStatusService;
     private final UsersService usersService;
 
@@ -47,7 +47,7 @@ public class OrganizationsService {
      * @param propertyService     the property service
      */
     @Autowired
-    public OrganizationsService(RestTemplateService restTemplateService, CommonService commonService, PropertyService propertyService, ResultStatusService resultStatusService, UsersService usersService) {
+    public OrganizationsService(SidecarRestTemplateService restTemplateService, CommonService commonService, SidecarPropertyService propertyService, ResultStatusService resultStatusService, UsersService usersService) {
         this.restTemplateService = restTemplateService;
         this.commonService = commonService;
         this.propertyService = propertyService;
@@ -62,10 +62,11 @@ public class OrganizationsService {
      * @param params the params
      * @return the roles list
      */
-    public Object getROrganizationsList(Params params) {
+    public Object getOrganizationsList(Params params) {
         Object result =  restTemplateService.send(org.kpaas.sidecar.portal.api.common.Constants.TARGET_SIDECAR_API,
                 "/v3/organizations", HttpMethod.GET, null, Map.class, params);
-        return commonService.setResultModel(result, Constants.RESULT_STATUS_SUCCESS);
+
+        return result;
     }
 
 

@@ -11,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.kpaas.sidecar.portal.api.common.Constants.TARGET_SIDECAR_API;
 
-@Service("sRestTemplateService")
-public class RestTemplateService extends org.container.platform.api.common.RestTemplateService{
+@Service("sidecarRestTemplateService")
+public class SidecarRestTemplateService extends org.container.platform.api.common.RestTemplateService{
 
     /**
      * Instantiates a new Rest template service
@@ -27,9 +27,9 @@ public class RestTemplateService extends org.container.platform.api.common.RestT
      * @param metricCollectorApiAuthorizationId
      * @param metricCollectorApiAuthorizationPassword
      */
-    public RestTemplateService(RestTemplate restTemplate,
+    public SidecarRestTemplateService(RestTemplate restTemplate,
                                @Qualifier("shortTimeoutRestTemplate") RestTemplate shortRestTemplate,
-                               @Qualifier("sPropertyService") PropertyService propertyService,
+                               @Qualifier("sidecarPropertyService") SidecarPropertyService propertyService,
                                CommonService commonService,
                                VaultService vaultService,
                                @Value("${commonApi.authorization.id}") String commonApiAuthorizationId,
@@ -49,7 +49,7 @@ public class RestTemplateService extends org.container.platform.api.common.RestT
             Assert.notNull(params, "Null parameter");
             Assert.notNull(params.getClusterToken(), "Null parameter(ClusterToken)");
 
-            this.baseUrl = ((org.kpaas.sidecar.portal.api.common.PropertyService)propertyService).getSidecarApiUrl();
+            this.baseUrl = ((SidecarPropertyService)propertyService).getSidecarApiUrl();
             this.base64Authorization = "bearer " + params.getClusterToken();
         }
     }
