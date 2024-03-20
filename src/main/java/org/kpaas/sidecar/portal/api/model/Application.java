@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.cloudfoundry.client.v3.Lifecycle;
 import org.cloudfoundry.client.v3.Link;
 import org.cloudfoundry.client.v3.Metadata;
@@ -14,13 +18,20 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize
+@ApiModel(value = "어플리케이션", description = "어플리케이션 정보를 가진 Class")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Application extends org.cloudfoundry.client.v3.applications.Application {
     @JsonProperty("lifecycle")
     public Lifecycle lifecycle;
     @JsonProperty("metadata")
     public Metadata metadata;
+
+    @ApiModelProperty(value = "어플리케이션 이름", example = "spring-music")
     @JsonProperty("name")
     public String name;
+
+    @ApiModelProperty(value = "어플리케이션 스페이스", example = "relationships: {\n\"space\":{\n\"data\":{\n\"guid\": \"test\"}}}")
     @JsonProperty("relationships")
     public ApplicationRelationships relationships;
     @JsonProperty("state")

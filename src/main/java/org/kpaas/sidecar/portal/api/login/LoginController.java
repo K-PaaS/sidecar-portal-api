@@ -1,10 +1,6 @@
 package org.kpaas.sidecar.portal.api.login;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.container.platform.api.common.Constants;
 import org.container.platform.api.common.MessageConstant;
 import org.container.platform.api.common.model.CommonStatusCode;
@@ -25,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @since 2020.09.28
  */
-@Api(value = "LoginController v1")
+//@Api(value = "LoginController v1")
 @RestController("sLoginController")
 public class LoginController {
 
@@ -42,10 +38,10 @@ public class LoginController {
     @Qualifier("authUtil")
     private AuthUtil authUtil;
 
-    @ApiOperation(value = "Org 목록조회(Get Org List)", nickname = "getOrganizationsList")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "params", value = "request parameters", required = true, dataType = "object", paramType = "body")
-    })
+    //@ApiOperation(value = "Org 목록조회(Get Org List)", nickname = "getOrganizationsList")
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "params", value = "request parameters", required = true, dataType = "object", paramType = "body")
+    //})
     @GetMapping("/sidecar/orgs")
     @ResponseBody
     public Object getOrganizationsList() {

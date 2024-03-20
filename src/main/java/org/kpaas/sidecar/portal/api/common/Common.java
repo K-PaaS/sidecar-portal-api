@@ -77,4 +77,23 @@ public class Common {
         }
         return elements;
     }
+
+    public String stringNullChecks(String elements){
+        if ( elements == null || elements.isEmpty() ){
+            elements = "";
+        }
+        return elements;
+    }
+
+    class CustomClass <E> {
+        private E element;
+
+        void set(E element) {
+            this.element = element;
+        }
+
+        E get() {
+            return element;
+        }
+    }
 }

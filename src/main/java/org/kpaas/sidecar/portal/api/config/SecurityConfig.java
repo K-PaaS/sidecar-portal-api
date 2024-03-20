@@ -1,11 +1,13 @@
 package org.kpaas.sidecar.portal.api.config;
 
 //import org.container.platform.api.common.Constants;
+
 import org.container.platform.api.login.JwtAuthenticationEntryPoint;
 import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.login.SidecarAuthenticationFilter;
 import org.kpaas.sidecar.portal.api.login.SidecarAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -35,7 +38,14 @@ import java.util.Collections;
 @EnableWebSecurity
 //twice @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private final String[] SWAGGER = {
+            "/v3/api-docs",
+            "/swagger-resources/**", "/configuration/security", "/webjars/**",
+            "/swagger-ui.html", "/swagger/**", "/swagger-ui/**"};
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers(SWAGGER);
+    }
     @Autowired
     private SidecarAuthenticationFilter sidecarAuthenticationFilter;
 

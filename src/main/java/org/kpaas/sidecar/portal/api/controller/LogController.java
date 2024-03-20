@@ -1,5 +1,6 @@
 package org.kpaas.sidecar.portal.api.controller;
 
+import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.model.Batch;
 import org.kpaas.sidecar.portal.api.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class LogController {
      * @return Map map
      * @throws Exception the exception
      */
-    @GetMapping(value = {"/logs/{appGuid}/recentlogs"})
+    @GetMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/logs/{appGuid}/recentlogs"})
     public Map getRecentLog(@PathVariable String appGuid) throws Exception {
         Map mapLog = new HashMap();
         try {
@@ -41,7 +42,7 @@ public class LogController {
      * @return Map map
      * @throws Exception the exception
      */
-    @GetMapping(value = {"/logs/{appGuid}/taillogs/recent"})
+    @GetMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/logs/{appGuid}/taillogs/recent"})
     public Map getTailLog(@PathVariable String appGuid, String token) throws Exception {
         Map mapLog = new HashMap();
         try {
@@ -61,7 +62,7 @@ public class LogController {
      * @return Space respSpace
      * @throws Exception the exception
      */
-    @GetMapping(value = {"/logs/{appGuid}/taillogs/{time}"})
+    @GetMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/logs/{appGuid}/taillogs/{time}"})
     public Map getTailLog(@PathVariable String appGuid, @PathVariable String time, String token) throws Exception {
         Map mapLog = new HashMap();
         try {
