@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.container.platform.api.common.CommonService;
 import org.container.platform.api.common.Constants;
 import org.container.platform.api.common.MessageConstant;
 import org.container.platform.api.common.model.CommonStatusCode;
@@ -36,14 +37,13 @@ import static org.container.platform.api.common.Constants.AUTH_USER;
 public class LoginController {
 
     @Autowired
-    private OrganizationsServiceV3 organizationsServiceV3;
-
-    @Autowired
     @Qualifier("sidecarPropertyService")
     private SidecarPropertyService propertyService;
 
     @Autowired
     private SidecarResourceYamlService resourceYamlService;
+    @Autowired
+    private CommonService commonService;
 
     @Autowired
     private org.kpaas.sidecar.portal.api.organizations.OrganizationsService organizationsService;
@@ -58,7 +58,7 @@ public class LoginController {
     //})
     @GetMapping("/sidecar/orgs")
     @ResponseBody
-    public Object getOrganizationsList() {
+    public Object qgetOrganizationsList() {
 
         org.cloudfoundry.client.v3.organizations.Organization org ;
         Object result ;
@@ -76,7 +76,7 @@ public class LoginController {
 
     @PostMapping("/sidecar/rolebindings")
     @ResponseBody
-    public Object roleBindingsAdmin(@RequestBody Users user) {
+    public Object CreateRoleBindings(@RequestBody Users user) {
         //SUPER_ADMIN에게 sidecar 최초 허용
         Params authParams =  authUtil.sidecarAuth();
 
@@ -111,6 +111,85 @@ public class LoginController {
 
         resourceYamlService.createSidecarResource(params, user);
 
-        return true;
+        return (ResultStatus) commonService.setResultModel(new ResultStatus(), Constants.RESULT_STATUS_SUCCESS);
+    }
+
+    @PutMapping("/sidecar/rolebindings")
+    @ResponseBody
+    public Object UpdateRoleBindings(@RequestBody Users user) {
+        Params authParams =  authUtil.sidecarAuth();
+
+        if (AUTH_USER.equals(authParams.getUserType())){
+            return new ResultStatus(Constants.RESULT_STATUS_FAIL, MessageConstant.INVALID_AUTHORITY.getMsg(),
+                    CommonStatusCode.FORBIDDEN.getCode(), MessageConstant.INVALID_AUTHORITY.getMsg());
+        }
+
+        //request body check
+        Assert.hasText(user.userId);
+        Assert.hasText(user.userAuthId);
+        Assert.hasText(user.userType);
+        Assert.hasText(user.clusterId);
+        Assert.hasText(user.roleSetCode); //admin(korifi-ctrl-admin) / user(korifi-ctrl-root-ns-user)
+
+        //user attributes setting
+        user.setCpNamespace(propertyService.getSidecarRootNamespace());
+        user.setServiceAccountName(user.getUserAuthId());
+        user.setClusterId(user.getClusterId());
+
+        //params attributes setting
+        Params params = new Params();
+        params.setUserId(user.userId);
+        params.setUserType(user.userType);
+        params.setUserAuthId(user.serviceAccountName);
+        params.setRs_sa(user.serviceAccountName);
+        params.setRs_role(user.roleSetCode);
+        params.setNamespace(user.cpNamespace);
+        params.setIsClusterToken(true);
+        params.setCluster(user.getClusterId());
+        params.setClusterToken(authParams.getClusterToken());
+
+        resourceYamlService.updateSidecarResource(params, user);
+
+        return (ResultStatus) commonService.setResultModel(new ResultStatus(), Constants.RESULT_STATUS_SUCCESS);
+
+    }
+    @DeleteMapping("/sidecar/rolebindings")
+    @ResponseBody
+    public Object DeleteRoleBindings(@RequestBody Users user) {
+        Params authParams =  authUtil.sidecarAuth();
+
+        if (AUTH_USER.equals(authParams.getUserType())){
+            return new ResultStatus(Constants.RESULT_STATUS_FAIL, MessageConstant.INVALID_AUTHORITY.getMsg(),
+                    CommonStatusCode.FORBIDDEN.getCode(), MessageConstant.INVALID_AUTHORITY.getMsg());
+        }
+
+        //request body check
+        Assert.hasText(user.userId);
+        Assert.hasText(user.userAuthId);
+        Assert.hasText(user.userType);
+        Assert.hasText(user.clusterId);
+        Assert.hasText(user.roleSetCode); //admin(korifi-ctrl-admin) / user(korifi-ctrl-root-ns-user)
+
+        //user attributes setting
+        user.setCpNamespace(propertyService.getSidecarRootNamespace());
+        user.setServiceAccountName(user.getUserAuthId());
+        user.setClusterId(user.getClusterId());
+
+        //params attributes setting
+        Params params = new Params();
+        params.setUserId(user.userId);
+        params.setUserType(user.userType);
+        params.setUserAuthId(user.serviceAccountName);
+        params.setRs_sa(user.serviceAccountName);
+        params.setRs_role(user.roleSetCode);
+        params.setNamespace(user.cpNamespace);
+        params.setIsClusterToken(true);
+        params.setCluster(user.getClusterId());
+        params.setClusterToken(authParams.getClusterToken());
+
+        resourceYamlService.deleteSidecarResource(params, user);
+
+        return (ResultStatus) commonService.setResultModel(new ResultStatus(), Constants.RESULT_STATUS_SUCCESS);
+
     }
 }

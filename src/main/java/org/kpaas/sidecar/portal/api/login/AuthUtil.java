@@ -29,8 +29,8 @@ import java.util.Map;
 
 import static org.kpaas.sidecar.portal.api.common.Constants.*;
 
-@Service("authUtil")
-public class AuthUtil extends org.container.platform.api.login.JwtUtil {
+@Service
+public class AuthUtil {//extends org.container.platform.api.login.JwtUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthUtil.class);
 
     @Autowired
