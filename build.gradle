@@ -76,6 +76,8 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpcore'
     implementation 'org.apache.httpcomponents:httpclient'
 
+    implementation 'io.minio:minio:8.4.2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

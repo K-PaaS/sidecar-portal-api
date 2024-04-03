@@ -2,6 +2,7 @@ package org.kpaas.sidecar.portal.api.service;
 
 import org.cloudfoundry.client.v3.Relationship;
 import org.cloudfoundry.client.v3.applications.*;
+import org.cloudfoundry.reactor.TokenProvider;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Application;
 import org.springframework.stereotype.Service;
@@ -166,9 +167,28 @@ public class ApplicationsServiceV3 extends Common{
                         .build())
                 .block();
     }
+    public SetApplicationCurrentDropletResponse setCurrentDroplet(String appGuid, String dropletGuid, TokenProvider tokenProvider) {
+        return cloudFoundryClient(tokenProvider)
+                .applicationsV3()
+                .setCurrentDroplet(SetApplicationCurrentDropletRequest
+                        .builder()
+                        .applicationId(appGuid)
+                        .data(Relationship.builder().id(dropletGuid).build())
+                        .build())
+                .block();
+    }
 
     public StartApplicationResponse start(String guid) {
         return cloudFoundryClient(tokenProvider())
+                .applicationsV3()
+                .start(StartApplicationRequest
+                        .builder()
+                        .applicationId(guid)
+                        .build())
+                .block();
+    }
+    public StartApplicationResponse start(String guid, TokenProvider tokenProvider) {
+        return cloudFoundryClient(tokenProvider)
                 .applicationsV3()
                 .start(StartApplicationRequest
                         .builder()
@@ -271,7 +291,6 @@ public class ApplicationsServiceV3 extends Common{
     }
     public ListApplicationPackagesResponse listPackages(String appGuid, List<String> packageGuids) {
         packageGuids = stringListNullCheck(packageGuids);
-
         return cloudFoundryClient(tokenProvider())
                 .applicationsV3()
                 .listPackages(ListApplicationPackagesRequest

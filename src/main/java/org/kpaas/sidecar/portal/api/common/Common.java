@@ -15,6 +15,18 @@ import java.util.List;
 
 @Service
 public class Common {
+    @Value("${minio.url}")
+    protected String afMinioUrl;
+
+    @Value("${minio.accessKey}")
+    protected String afMinioAccessKey;
+
+    @Value("${minio.secretkey}")
+    protected String afMinioSecretkey;
+
+    @Value("${minio.bucket}")
+    protected String afMinioBucket;
+
     @Value("${sidecar.apiHost}")
     public String apiHost;
 
@@ -28,7 +40,7 @@ public class Common {
 
     @Autowired
     @Qualifier("authUtil")
-    private AuthUtil authUtil;
+    protected AuthUtil authUtil;
 
     public ReactorCloudFoundryClient cloudFoundryClient(TokenProvider tokenProvider) {
         defaultConnectionContext = DefaultConnectionContext.builder().apiHost(apiHost).skipSslValidation(true).build();

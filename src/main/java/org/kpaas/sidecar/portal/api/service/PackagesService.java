@@ -5,10 +5,13 @@ import org.cloudfoundry.client.v3.ToOneRelationship;
 import org.cloudfoundry.client.v3.packages.*;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PackagesService extends Common {
@@ -101,7 +104,15 @@ public class PackagesService extends Common {
                 .block();
     }
 
-    public UploadPackageResponse upload(String guid, File file) {
+    public UploadPackageResponse upload(String guid, MultipartFile multipartFile) throws IOException {
+        String filePath = System.getProperty("user.home") + "/" + multipartFile.getOriginalFilename();
+        //File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        File file = new File(Objects.requireNonNull(filePath));
+        multipartFile.transferTo(file);
+        //Resource resource = multipartFile.getResource();
+
+        //Path filepath = Paths.get(multipartFile.getResource(), multipartFile.getOriginalFilename());
+        //return cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(multipartFile.getResource().getFile().toPath()).build()).block();
         return cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(file.toPath()).build()).block();
     }
 }

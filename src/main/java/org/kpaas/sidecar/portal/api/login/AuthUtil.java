@@ -1,13 +1,9 @@
 package org.kpaas.sidecar.portal.api.login;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.container.platform.api.accessInfo.AccessTokenService;
-import org.container.platform.api.login.support.JWTRoleInfoItem;
 import org.container.platform.api.login.support.PortalGrantedAuthority;
 import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.common.SidecarPropertyService;
-import org.kpaas.sidecar.portal.api.common.SidecarResourceYamlService;
 import org.kpaas.sidecar.portal.api.common.SidecarRestTemplateService;
 import org.kpaas.sidecar.portal.api.common.model.Params;
 import org.kpaas.sidecar.portal.api.login.model.Whoami;
@@ -25,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.kpaas.sidecar.portal.api.common.Constants.*;
 
@@ -123,7 +118,6 @@ public class AuthUtil extends org.container.platform.api.login.JwtUtil {
                 }
             }
         }
-
         Whoami whoami = whoami(params);
         if (AUTH_SUPER_ADMIN.equals(params.getUserType()) || whoami.getName().contains(params.getUserId()) || whoami.getName().contains(params.getUserAuthId())){
             params.setSidecarStatus(Constants.SidecarStatus.ACTIVE);

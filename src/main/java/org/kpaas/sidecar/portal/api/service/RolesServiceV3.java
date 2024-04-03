@@ -59,10 +59,11 @@ public class RolesServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider()).rolesV3().get(GetRoleRequest.builder().build()).block();
     }
 
-    public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, String roleGuid) {
+    public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, List<String> roleGuids) {
         orgGuids = stringListNullCheck(orgGuids);
         spaceGuids = stringListNullCheck(spaceGuids);
         usernames = stringListNullCheck(usernames);
+        roleGuids = stringListNullCheck(roleGuids);
 
         if ( types == null || types.isEmpty() ){
             types = new ArrayList<>();
@@ -76,7 +77,7 @@ public class RolesServiceV3 extends Common {
                         .spaceIds(spaceGuids)
                         .userIds(usernames)
                         .types(types)
-                        .roleIds(roleGuid)
+                        .roleIds(roleGuids)
                         .build())
                 .block();
     }

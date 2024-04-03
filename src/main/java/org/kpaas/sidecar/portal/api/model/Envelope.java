@@ -1,31 +1,44 @@
 package org.kpaas.sidecar.portal.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
-public abstract class Envelope {
-    public Envelope(String instance_id, Log log, String source_id, Map<String, String> tags, Long timestamp, Map<String, String> deprecated_tags) {
-        this.instance_id = instance_id;
-        this.log = log;
-        this.source_id = source_id;
-        this.tags = tags;
-        this.timestamp = timestamp;
-        this.deprecated_tags = deprecated_tags;
+public class Envelope {
+    public Envelope() {
     }
 
-    private String instance_id;
+    public Envelope(//String instance_id,
+                    Log log,
+                    //String source_id,
+                    Map<String, String> tags, Long timestamp)
+                    //Map<String, String> deprecated_tags)
+                    {
+        //this.instance_id = instance_id;
+        this.log = log;
+        //this.source_id = source_id;
+        this.tags = tags;
+        this.timestamp = timestamp;
+        //this.deprecated_tags = deprecated_tags;
+    }
 
+    //private String instance_id;
+
+    @JsonProperty("log")
     private Log log;
 
-    private String source_id;
-
+    //private String source_id;
+    @JsonProperty("tags")
     Map<String, String> tags;
 
+    @JsonProperty("timestamp")
     private Long timestamp;
 
-    Map<String, String> deprecated_tags;
+
+    //Map<String, String> deprecated_tags;
 
     public class Log{
         public String getPayloadAsText(String payload) {
@@ -51,14 +64,21 @@ public abstract class Envelope {
         public void setType(LogType type) {
             this.type = type;
         }
+
+        @Override
+        public String toString() {
+            return "Log{" +
+                    "payload='" + payload + '\'' +
+                    ", type=" + type +
+                    '}';
+        }
     }
 
 
     public enum LogType {
 
-        ERR("ERR"),
-
-        OUT("OUT");
+        OUT("OUT"),
+        ERR("ERR");
 
         private final String value;
 
@@ -68,10 +88,10 @@ public abstract class Envelope {
 
         public static LogType from(String s) {
             switch (s.toLowerCase()) {
-                case "err":
-                    return ERR;
                 case "out":
                     return OUT;
+                case "err":
+                    return ERR;
                 default:
                     throw new IllegalArgumentException(String.format("Unknown log type: %s", s));
             }
@@ -86,13 +106,13 @@ public abstract class Envelope {
 
     }
 
-    public String getInstance_id() {
-        return instance_id;
-    }
+    //public String getInstance_id() {
+    //    return instance_id;
+    //}
 
-    public void setInstance_id(String instance_id) {
-        this.instance_id = instance_id;
-    }
+    //public void setInstance_id(String instance_id) {
+    //    this.instance_id = instance_id;
+    //}
 
     public Log getLog() {
         return log;
@@ -102,13 +122,13 @@ public abstract class Envelope {
         this.log = log;
     }
 
-    public String getSource_id() {
-        return source_id;
-    }
+    //public String getSource_id() {
+    //    return source_id;
+    //}
 
-    public void setSource_id(String source_id) {
-        this.source_id = source_id;
-    }
+    //public void setSource_id(String source_id) {
+    //    this.source_id = source_id;
+    //}
 
     public Map<String, String> getTags() {
         return tags;
@@ -126,23 +146,23 @@ public abstract class Envelope {
         this.timestamp = timestamp;
     }
 
-    public Map<String, String> getDeprecated_tags() {
-        return deprecated_tags;
-    }
+    //public Map<String, String> getDeprecated_tags() {
+    //    return deprecated_tags;
+    //}
 
-    public void setDeprecated_tags(Map<String, String> deprecated_tags) {
-        this.deprecated_tags = deprecated_tags;
-    }
+    //public void setDeprecated_tags(Map<String, String> deprecated_tags) {
+    //    this.deprecated_tags = deprecated_tags;
+    //}
 
     @Override
     public String toString() {
         return "Envelope{" +
-                "instance_id='" + instance_id + '\'' +
-                ", log=" + log +
-                ", source_id='" + source_id + '\'' +
+               // "instance_id='" + instance_id + '\'' +
+                "log=" + log +
+               // ", source_id='" + source_id + '\'' +
                 ", tags=" + tags +
                 ", timestamp=" + timestamp +
-                ", deprecated_tags=" + deprecated_tags +
+          //      ", deprecated_tags=" + deprecated_tags +
                 '}';
     }
 }
