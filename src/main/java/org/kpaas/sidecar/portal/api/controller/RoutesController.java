@@ -14,6 +14,7 @@ import org.kpaas.sidecar.portal.api.service.RoutesServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,11 @@ public class RoutesController extends Common {
 
     @ApiOperation(value = "Route 삭제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/routes/{routeGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Route GUID", required = true)String routeGuid) throws Exception {
-        return routesServiceV3.delete(routeGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Route GUID", required = true)String routeGuid) throws Exception {
+        Map map = new HashMap();
+        String result = routesServiceV3.delete(routeGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     @ApiOperation(value = "Route - Application 연결")
@@ -67,8 +71,11 @@ public class RoutesController extends Common {
 
     @ApiOperation(value = "Route - Application 연결 해제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/routes/{routeGuid}/removeDestinations/{appGuid}"})
-    public Void removeDestinations(@PathVariable @ApiParam(value = "Route GUID", required = true)String routeGuid, @PathVariable @ApiParam(value = "Application GUID", required = true)String appGuid) throws Exception {
-        return routesServiceV3.removeDestinations(routeGuid, appGuid);
+    public Map removeDestinations(@PathVariable @ApiParam(value = "Route GUID", required = true)String routeGuid, @PathVariable @ApiParam(value = "Application GUID", required = true)String appGuid) throws Exception {
+        Map map = new HashMap();
+        routesServiceV3.removeDestinations(routeGuid, appGuid);
+        map.put("resultMessage", "Success");
+        return map;
     }
 
     @ApiOperation(value = "Route 조회")

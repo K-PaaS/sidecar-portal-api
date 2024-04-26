@@ -14,6 +14,7 @@ import org.kpaas.sidecar.portal.api.service.DomainsServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,11 @@ public class DomainsController extends Common {
 
     @ApiOperation(value = "Domain 삭제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/domains/{domainGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Domain GUID", required = true)String domainGuid) throws Exception {
-        return domainsServiceV3.delete(domainGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Domain GUID", required = true)String domainGuid) throws Exception {
+        Map map = new HashMap();
+        String result = domainsServiceV3.delete(domainGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     @ApiOperation(value = "Domain 조회")

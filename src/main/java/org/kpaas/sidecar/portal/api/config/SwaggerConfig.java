@@ -23,9 +23,22 @@ public class SwaggerConfig extends org.container.platform.api.config.SwaggerConf
     @Bean
     @Override
     public Docket api() {
-
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("v1.0")
+                .groupName("Container Platform API")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("org.container.platform.api"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo())
+                .produces(DEFAULT_PRODUCES_AND_CONSUMES)
+                .consumes(DEFAULT_PRODUCES_AND_CONSUMES);
+
+    }
+
+    @Bean
+    public Docket sidecarApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Sidecar Portal API")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.kpaas.sidecar.portal.api"))
                 .paths(PathSelectors.any())

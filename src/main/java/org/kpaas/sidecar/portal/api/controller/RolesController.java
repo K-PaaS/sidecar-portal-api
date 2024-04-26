@@ -17,6 +17,7 @@ import org.kpaas.sidecar.portal.api.service.RolesServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,8 +70,11 @@ public class RolesController extends Common {
 
     @ApiOperation(value = "Role 삭제 (User - Org or Space 연결 해제)")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/roles/{roleGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Role GUID", required = true) String roleGuid) throws Exception {
-        return rolesServiceV3.delete(roleGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Role GUID", required = true) String roleGuid) throws Exception {
+        Map map = new HashMap();
+        String result = rolesServiceV3.delete(roleGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     /*

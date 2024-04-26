@@ -11,6 +11,7 @@ import org.kpaas.sidecar.portal.api.service.ApplicationsServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,11 @@ public class ApplicationsController extends Common {
      */
     @ApiOperation(value = "Application 삭제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/apps/{appGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Application GUID", required = true)String appGuid) throws Exception {
-        return appServiceV3.delete(appGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Application GUID", required = true)String appGuid) throws Exception {
+        Map map = new HashMap();
+        String result = appServiceV3.delete(appGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     /*

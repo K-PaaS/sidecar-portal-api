@@ -14,6 +14,7 @@ import org.kpaas.sidecar.portal.api.service.SpacesServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,11 @@ public class SpacesController extends Common {
 
     @ApiOperation(value = "Space 삭제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/spaces/{spaceGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Space GUID", required = true)String spaceGuid) throws Exception {
-        return spacesServiceV3.delete(spaceGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Space GUID", required = true)String spaceGuid) throws Exception {
+        Map map = new HashMap();
+        String result = spacesServiceV3.delete(spaceGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     @ApiOperation(value = "Space 리스트 조회")

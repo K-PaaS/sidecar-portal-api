@@ -117,19 +117,24 @@ public class SidecarService extends Common {
                             .object(fileName)
                             .filename(filePath)
                             .build());*/
+            String fileName = "3.png";
+            String filePath = System.getProperty("user.home") + "/" + fileName;
+
             minioClient.downloadObject(
                     DownloadObjectArgs.builder()
                             .bucket(bucketName)
-                            .object("3.png")
-                            .filename("C:\\Users\\이노그리드/3.png")
+                            .object(fileName)
+                            .filename(filePath)
                             .build());
 
-            Iterable<Result<Item>> results = minioClient.listObjects(
+            return new File(filePath);
+            
+            /*Iterable<Result<Item>> results = minioClient.listObjects(
                     ListObjectsArgs.builder()
                             .bucket(bucketName)
                             .build()
             );
-            resultStatus.setResultCode("SUCCESS");
+            resultStatus.setResultCode("SUCCESS");*/
 
             //File localFile = new File(filePath);
             //if (localFile.exists()) {

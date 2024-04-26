@@ -17,6 +17,7 @@ import org.kpaas.sidecar.portal.api.service.ServiceBindingsServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,10 @@ public class ServiceBindingsController extends Common {
 
     @ApiOperation(value = "ServiceBinding 삭제 (앱 - 서비스 연결해제)")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/serviceBindings/{serviceBindingGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "ServiceBinding GUID", required = true)String serviceBindingGuid) throws Exception {
-        return serviceBindingsServiceV3.delete(serviceBindingGuid);
+    public Map delete(@PathVariable @ApiParam(value = "ServiceBinding GUID", required = true)String serviceBindingGuid) throws Exception {
+        Map map = new HashMap();
+        String result = serviceBindingsServiceV3.delete(serviceBindingGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 }

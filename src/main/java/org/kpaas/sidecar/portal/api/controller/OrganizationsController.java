@@ -12,6 +12,7 @@ import org.kpaas.sidecar.portal.api.service.OrganizationsServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,11 @@ public class OrganizationsController extends Common {
 
     @ApiOperation(value = "Org 삭제")
     @DeleteMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/organizations/{orgGuid}"})
-    public String delete(@PathVariable @ApiParam(value = "Org GUID", required = true)String orgGuid, String token) throws Exception {
-        return organizationsServiceV3.delete(orgGuid);
+    public Map delete(@PathVariable @ApiParam(value = "Org GUID", required = true)String orgGuid, String token) throws Exception {
+        Map map = new HashMap();
+        String result = organizationsServiceV3.delete(orgGuid);
+        map.put("resultMessage", result);
+        return map;
     }
 
     @ApiOperation(value = "Org 조회")
