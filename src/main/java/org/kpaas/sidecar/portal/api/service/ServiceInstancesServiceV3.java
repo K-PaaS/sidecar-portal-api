@@ -33,7 +33,8 @@ public class ServiceInstancesServiceV3 extends Common {
     }
 
     public GetServiceInstanceResponse get(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().get(GetServiceInstanceRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().get(GetServiceInstanceRequest.builder()
+                .serviceInstanceId(guid).build()).block();
     }
 
     public GetManagedServiceParametersResponse getManagedServiceParameters(String guid) {
@@ -41,7 +42,8 @@ public class ServiceInstancesServiceV3 extends Common {
     }
 
     public GetUserProvidedCredentialsResponse getUserProvidedCredentials(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getUserProvidedCredentials(GetUserProvidedCredentialsRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getUserProvidedCredentials(GetUserProvidedCredentialsRequest.builder()
+                .serviceInstanceId(guid).build()).block();
     }
 
     public ListServiceInstancesResponse list(List<String> spaceGuid, List<String> serviceInstanceNames) {

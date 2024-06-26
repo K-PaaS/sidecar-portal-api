@@ -82,6 +82,7 @@ public class ApplicationsServiceV3 extends Common{
                 .getProcessStatistics(GetApplicationProcessStatisticsRequest
                         .builder()
                         .applicationId(guid)
+                        .type("web")
                         .build())
                 .block();
     }

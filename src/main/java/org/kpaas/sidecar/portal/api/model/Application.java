@@ -14,6 +14,7 @@ import org.cloudfoundry.client.v3.Metadata;
 import org.cloudfoundry.client.v3.applications.ApplicationRelationships;
 import org.cloudfoundry.client.v3.applications.ApplicationState;
 
+import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -48,12 +49,31 @@ public class Application extends org.cloudfoundry.client.v3.applications.Applica
 
     @JsonProperty("instances")
     public Integer instances;
+
+    @JsonProperty("max_instances")
+    public Integer maxInstances;
+    @JsonProperty("current_instances")
+    public Integer currentInstances;
     @JsonProperty("disk_in_mb")
     public Integer diskInMb;
     @JsonProperty("memory_in_mb")
     public Integer memoryInMb;
     @JsonProperty("environment_variables")
     public Map.Entry<String, ? extends String> environmentVariables;
+
+    @JsonProperty("route")
+    public Route route;
+
+    @JsonProperty("urls")
+    public List<String> urls;
+
+    public List<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
 
     @Override
     public Lifecycle getLifecycle() {
@@ -167,6 +187,34 @@ public class Application extends org.cloudfoundry.client.v3.applications.Applica
 
     public void setEnvironmentVariables(Map.Entry<String, ? extends String> environmentVariables) {
         this.environmentVariables = environmentVariables;
+    }
+
+    public Integer getMaxInstances() {
+        return maxInstances;
+    }
+
+    public void setMaxInstances(Integer maxInstances) {
+        this.maxInstances = maxInstances;
+    }
+
+    public Integer getCurrentInstances() {
+        return currentInstances;
+    }
+
+    public void setCurrentInstances(Integer currentInstances) {
+        this.currentInstances = currentInstances;
+    }
+
+    public void setDiskInMb(Integer diskInMb) {
+        this.diskInMb = diskInMb;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     @Override

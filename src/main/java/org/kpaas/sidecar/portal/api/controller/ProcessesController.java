@@ -58,9 +58,9 @@ public class ProcessesController extends Common {
     @PostMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/processes/{processGuid}/scale"})
     public ScaleProcessResponse scale(@PathVariable @ApiParam(value = "Process GUID", required = true)String processGuid, @ApiParam(hidden = true)@RequestBody Map<String, String> requestData) throws Exception {
         // Integer 시 value 없을 시 exception 처리
-        Integer instances = Integer.valueOf(stringNullCheck(requestData.get("instances")));
-        Integer diskInMb = Integer.valueOf(stringNullCheck(requestData.get("diskInMb")));
-        Integer memoryInMb = Integer.valueOf(stringNullCheck(requestData.get("memoryInMb")));
+        Integer instances = stringNullCheck(requestData.get("instances")).equals("") ? null : Integer.valueOf(stringNullCheck(requestData.get("instances")));
+        Integer diskInMb = stringNullCheck(requestData.get("diskInMb")).equals("") ? null : Integer.valueOf(stringNullCheck(requestData.get("diskInMb")));
+        Integer memoryInMb = stringNullCheck(requestData.get("memoryInMb")).equals("") ? null : Integer.valueOf(stringNullCheck(requestData.get("memoryInMb")));
 
         Process process = new Process();
         process.setInstances(instances);
