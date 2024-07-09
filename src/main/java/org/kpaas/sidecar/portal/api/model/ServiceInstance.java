@@ -49,6 +49,10 @@ public class ServiceInstance extends org.cloudfoundry.client.v3.serviceinstances
     @Nullable
     public List<String> tags;
 
+    @JsonProperty("credentails")
+    @Nullable
+    public Map<String, ? extends Object> credentials;
+
     @JsonProperty("type")
     @Nullable
     public ServiceInstanceType type;
@@ -203,6 +207,13 @@ public class ServiceInstance extends org.cloudfoundry.client.v3.serviceinstances
         this.updatedAt = updatedAt;
     }
 
+    public Map<String, ? extends Object> getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(Map<String, ? extends Object> credentials) {
+        this.credentials = credentials;
+    }
     @Override
     public String toString() {
         return "ServiceInstance{" +
@@ -221,6 +232,7 @@ public class ServiceInstance extends org.cloudfoundry.client.v3.serviceinstances
                 ", id='" + id + '\'' +
                 ", links=" + links +
                 ", updatedAt='" + updatedAt + '\'' +
+                ", credentials='" + credentials + '\'' +
                 '}';
     }
 }

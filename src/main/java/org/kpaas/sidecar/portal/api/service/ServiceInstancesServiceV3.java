@@ -16,6 +16,7 @@ public class ServiceInstancesServiceV3 extends Common {
                 .create(CreateServiceInstanceRequest
                         .builder()
                         .name(serviceInstance.getName())
+                        .credentials(serviceInstance.getCredentials())
                         .type(serviceInstance.getType())
                         .relationships(serviceInstance.getRelationships())
                         .build())
