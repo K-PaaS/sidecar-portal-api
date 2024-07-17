@@ -35,12 +35,14 @@ public class RoutesController extends Common {
         String host = stringNullCheck(requestData.get("host"));
         String domainGuid = stringNullCheck(requestData.get("domainGuid"));
         String spaceGuid = stringNullCheck(requestData.get("spaceGuid"));
+        String path = stringNullCheck(requestData.get("path"));
 
         if ( host.isEmpty() || domainGuid.isEmpty() || spaceGuid.isEmpty()){ // 차후 수정
             throw new NullPointerException("NULL 발생");
         }
         Route route = new Route();
         route.setHost(host);
+        route.setPath(path);
         route.setRelationships(RouteRelationships.builder()
                 .domain(ToOneRelationship.builder().data(Relationship.builder().id(domainGuid).build()).build())
                 .space(ToOneRelationship.builder().data(Relationship.builder().id(spaceGuid).build()).build())
