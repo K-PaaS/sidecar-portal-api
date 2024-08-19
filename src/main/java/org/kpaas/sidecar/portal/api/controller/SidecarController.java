@@ -17,6 +17,7 @@ import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.common.SidecarRestTemplateService;
 import org.kpaas.sidecar.portal.api.model.Application;
 import org.kpaas.sidecar.portal.api.model.ApplicationService;
+import org.kpaas.sidecar.portal.api.model.Process;
 import org.kpaas.sidecar.portal.api.model.Route;
 import org.kpaas.sidecar.portal.api.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +83,9 @@ public class SidecarController extends Common {
     String buildGuid;
     String dropletGuid;
 
-    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/app/push", method = RequestMethod.POST)
-    public void push(@RequestPart @ApiParam(hidden = true) Map<String, String> requestData, @RequestParam MultipartFile multipartFile) throws Exception {
 
+    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/app/push", method = RequestMethod.POST, headers = ("content-type=multipart/form-data"))
+    public void push(@RequestPart @ApiParam(hidden = true) Map<String, String> requestData, @RequestPart(value = "multipartFile",required = true) MultipartFile multipartFile) throws Exception {
         String name = stringNullCheck(requestData.get("name"));
         String spaceGuid = stringNullCheck(requestData.get("spaceGuid"));
         if ( name.isEmpty() || spaceGuid.isEmpty() ){ // 차후 수정
@@ -92,9 +93,12 @@ public class SidecarController extends Common {
             throw new NullPointerException("NULL 발생");
         }
 
-        /*String name = "pushtest";
-        String spaceGuid = "cf-space-36ab0f6a-7cb4-4f4d-aa88-382a9dc466cb";*/
+        String memory = stringNullCheck(requestData.get("memory"));
+        String disk = stringNullCheck(requestData.get("disk"));
+        if ( memory.isEmpty() || disk.isEmpty() ){ // 차후 수정
 
+            throw new NullPointerException("NULL 발생");
+        }
 
         Application app = new Application();
         app.setName(name);
@@ -107,8 +111,6 @@ public class SidecarController extends Common {
         if ( host.isEmpty() || domainGuid.isEmpty() ){ // 차후 수정
             throw new NullPointerException("NULL 발생");
         }
-        //String host = "pushtest";
-        //String domainGuid = "default-domain";
 
         Route route = new Route();
         route.setHost(host);
@@ -117,11 +119,9 @@ public class SidecarController extends Common {
                 .space(ToOneRelationship.builder().data(Relationship.builder().id(spaceGuid).build()).build())
                 .build());
         // 2. App 생성
-        //Application app = null;
         appGuid = appServiceV3.create(app).getId();
 
         // 3. ROUTE 생성
-        //Route route = null;
         routeGuid = routesServiceV3.create(route).getId();
 
         // 4. APP - ROUTE 맵핑
@@ -142,7 +142,6 @@ public class SidecarController extends Common {
                         try {
                             CreateBuildResponse createBuildResponse = buildsService.create(packageGuid, tokenProvider);
                             buildGuid = createBuildResponse.getId();
-                            //dropletGuid = buildsService.get(buildGuid, tokenProvider).getDroplet().getId();
 
                             //현재 시각
                             long start = System.currentTimeMillis();
@@ -166,6 +165,11 @@ public class SidecarController extends Common {
                             //앱 실행버튼이 on일때
                             if (true) {
                                 // 8. 앱 시작
+                                Process process = new Process();
+                                process.setDiskInMb(Integer.valueOf(disk));
+                                process.setMemoryInMb(Integer.valueOf(memory));
+                                process.setInstances(null);
+                                processesService.scale("cf-proc-" + appGuid + "-web", process, tokenProvider);
                                 appServiceV3.start(appGuid, tokenProvider);
                             }
                         } catch (Exception e) {
@@ -213,6 +217,9 @@ public class SidecarController extends Common {
         String processGuid;
         String status;
 
+        List<Application> applications = new ArrayList<>();
+        Application application;
+
         List<Map> maps = new ArrayList<>();
         List<Map> apps = new ArrayList<>();
         List<Map> processes = new ArrayList<>();
@@ -220,7 +227,11 @@ public class SidecarController extends Common {
         String reqUrl = "/apis/korifi.cloudfoundry.org/v1alpha1/namespaces/"+ spaceGuid + "/cfapps";
         Map map;
         map = restTemplateService.send(org.container.platform.api.common.Constants.TARGET_CP_MASTER_API, reqUrl, HttpMethod.GET, null, Map.class, authUtil.sidecarAuth());
+
         apps = (List<Map>)map.get("items");
+        if (apps.size() == 0){
+            return applications;
+        }
         System.out.println((apps.get(0).get("metadata")));
         Map map2 = (Map) apps.get(0).get("metadata");
         System.out.println(map2.get("name"));
@@ -236,8 +247,7 @@ public class SidecarController extends Common {
         routes = (List<Map>)map.get("items");
         maps.add(map);
 
-        List<Application> applications = new ArrayList<>();
-        Application application;
+
 
 
         for(Map map1 : apps ){

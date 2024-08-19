@@ -4,6 +4,9 @@ server:
     valid: N
 
 spring:
+  http:
+    multipart:
+      enabled: true
   main:
     allow-bean-definition-overriding: true
   application:
@@ -66,10 +69,10 @@ minio:
 #logging:
 #  level:
 #    cloudfoundry-client: debug
-#logging:
-#  level:
-#    cloudfoundry-client:
-#      wire: trace
+logging:
+  level:
+    cloudfoundry-client:
+      wire: trace
 
 
 #############
