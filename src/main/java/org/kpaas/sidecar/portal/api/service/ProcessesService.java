@@ -1,6 +1,7 @@
 package org.kpaas.sidecar.portal.api.service;
 
 import org.cloudfoundry.client.v3.processes.*;
+import org.cloudfoundry.reactor.TokenProvider;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Process;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,18 @@ public class ProcessesService extends Common {
 
     public ScaleProcessResponse scale(String processGuid, Process process) {
         return cloudFoundryClient(tokenProvider())
+                .processes()
+                .scale(ScaleProcessRequest
+                        .builder()
+                        .processId(processGuid)
+                        .instances(process.getInstances())
+                        .memoryInMb(process.getMemoryInMb())
+                        .diskInMb(process.getDiskInMb())
+                        .build())
+                .block();
+    }
+    public ScaleProcessResponse scale(String processGuid, Process process, TokenProvider tokenProvider) {
+        return cloudFoundryClient(tokenProvider)
                 .processes()
                 .scale(ScaleProcessRequest
                         .builder()
