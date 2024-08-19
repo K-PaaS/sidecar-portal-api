@@ -18,6 +18,7 @@ public class RoutesServiceV3 extends Common {
                         .builder()
                         .relationships(route.getRelationships())
                         .host(route.getHost())
+                        .path(route.getPath())
                         .build())
                 .block();
 
