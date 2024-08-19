@@ -1,5 +1,6 @@
 package org.container.platform.api.exception;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.cloudfoundry.client.v3.ClientV3Exception;
 import org.container.platform.api.common.CommonUtils;
 import org.container.platform.api.common.Constants;
@@ -97,6 +98,12 @@ public class GlobalExceptionHandler extends RuntimeException {
     public ErrorMessage handleException(AccessDeniedException ex) {
         LOGGER.info("AccessDeniedException >>> " + CommonUtils.loggerReplace(ex.getMessage()));
         return new ErrorMessage(Constants.RESULT_STATUS_FAIL, CommonUtils.loggerReplace(ex.getMessage()), HttpStatus.UNAUTHORIZED.value(), CommonStatusCode.UNAUTHORIZED.getMsg());
+    }
+
+    @ExceptionHandler({JsonProcessingException.class})
+    public ErrorMessage handleException(JsonProcessingException ex) {
+        LOGGER.info("AccessDeniedException >>> " + CommonUtils.loggerReplace(ex.getMessage()));
+        return new ErrorMessage(Constants.RESULT_STATUS_FAIL, CommonUtils.loggerReplace(ex.getMessage()), HttpStatus.UNPROCESSABLE_ENTITY.value(), CommonStatusCode.UNPROCESSABLE_ENTITY.getMsg());
     }
 
 

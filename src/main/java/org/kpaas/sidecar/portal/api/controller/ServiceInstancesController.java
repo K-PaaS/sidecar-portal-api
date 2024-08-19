@@ -1,5 +1,6 @@
 package org.kpaas.sidecar.portal.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,10 +18,7 @@ import org.kpaas.sidecar.portal.api.service.ServiceInstancesServiceV3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class ServiceInstancesController extends Common {
@@ -42,13 +40,22 @@ public class ServiceInstancesController extends Common {
     public CreateServiceInstanceResponse create(@RequestBody @ApiParam(hidden = true)Map<String, String> requestData) throws Exception {
         String name = stringNullCheck(requestData.get("name"));
         String spaceGuid = stringNullCheck(requestData.get("spaceGuid"));
+        String credentials = stringNullCheck(requestData.get("credentials"));
 
-        if ( name.isEmpty() || spaceGuid.isEmpty() ){ // 차후 수정
+        if ( name.isEmpty() || spaceGuid.isEmpty() || credentials.isEmpty() ){ // 차후 수정
 
             throw new NullPointerException("NULL 발생");
         }
+        Map<String, ? extends Object> entries ;
+
+        //try {
+            entries = new ObjectMapper().readValue(credentials, Map.class);
+        //}catch (JsonProcessingException jpe){
+        //    throw jpe;
+        //}
         ServiceInstance serviceInstance = new ServiceInstance();
         serviceInstance.setName(name);
+        serviceInstance.setCredentials(entries);
         serviceInstance.setRelationships(ServiceInstanceRelationships.builder()
                         .space(ToOneRelationship.builder().data(Relationship.builder().id(spaceGuid).build()).build())
                 .build());
