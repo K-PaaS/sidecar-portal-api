@@ -50,14 +50,6 @@ sidecar:
     admin: korifi-controllers-admin
     #spacedeveloper: korifi-controllers-organization-user, korifi-controllers-space-developer, korifi-controllers-root-namespace-user
 
-minio:
-  url: ${MINIO_URL}
-  accessKey: ${MINIO_ACCESSKEY}
-  secretkey: ${MINIO_SECRETKEY}
-  bucket: ${MINIO_BUCKET}
-
-
-
 #logging:
 #  level:
 #    ROOT: INFO

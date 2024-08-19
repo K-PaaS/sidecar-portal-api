@@ -25,13 +25,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Base64;
 import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
 
 @RestController
 public class SidecarController extends Common {
@@ -180,21 +176,6 @@ public class SidecarController extends Common {
                 }
         );
         th.start();
-    }
-
-    @ApiOperation(value = "Sidecar Upload File", nickname = "minioUploadFile")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "params", value = "request parameters", required = true, dataType = "common.model.Params", paramType = "body"
-            )})
-    //, consumes = "multipart/form-data; boundary=luna_test")
-    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/miniofile", method = RequestMethod.POST, produces = "application/json")
-    public Object minioUploadFile(@RequestParam(value = "file", required = false) MultipartFile file) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
-        return sidecarService.minioUploadFile(file);
-    }
-
-    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/miniofile", method = RequestMethod.GET)
-    public Object minioDownloadFile() throws IOException, NoSuchAlgorithmException, InvalidKeyException {
-        return sidecarService.minioDownloadFile();
     }
 
     private final SidecarRestTemplateService restTemplateService;
