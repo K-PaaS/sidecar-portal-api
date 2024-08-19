@@ -50,7 +50,7 @@ public class RolesController extends Common {
         Role role = new Role();
         role.setType(RoleType.from(type));
 
-        if( (RoleType.ORGANIZATION_ROLE_TYPES.contains(role.getType()) && orgGuid.isEmpty()) || RoleType.SPACE_ROLE_TYPES.contains(role.getType()) && orgGuid.isEmpty()){
+        if( (RoleType.ORGANIZATION_ROLE_TYPES.contains(role.getType()) && orgGuid.isEmpty()) || RoleType.SPACE_ROLE_TYPES.contains(role.getType()) && spaceGuid.isEmpty()){
             throw new NullPointerException("Type 확인 필요 발생");
         }
         if (RoleType.ORGANIZATION_ROLE_TYPES.contains(role.getType())) {
