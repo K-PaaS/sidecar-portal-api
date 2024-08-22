@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.cloudfoundry.client.v3.Relationship;
 import org.cloudfoundry.client.v3.ToOneRelationship;
-import org.cloudfoundry.client.v3.serviceinstances.CreateServiceInstanceResponse;
-import org.cloudfoundry.client.v3.serviceinstances.ListServiceInstancesResponse;
-import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceRelationships;
-import org.cloudfoundry.client.v3.serviceinstances.ServiceInstanceType;
+import org.cloudfoundry.client.v3.serviceinstances.*;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.model.ServiceInstance;
@@ -34,7 +31,8 @@ public class ServiceInstancesController extends Common {
     @ApiOperation(value = "ServiceInstance 생성")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "ServiceInstance 이름", required = true, paramType = "body", dataType = "string"),
-            @ApiImplicitParam(name = "spaceGuid", value = "Space GUID", required = true, paramType = "body", dataType = "string")
+            @ApiImplicitParam(name = "spaceGuid", value = "Space GUID", required = true, paramType = "body", dataType = "string"),
+            @ApiImplicitParam(name = "credentials", value = "credentials", required = false, paramType = "body", dataType = "string")
     })
     @PostMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/serviceInstances"})
     public CreateServiceInstanceResponse create(@RequestBody @ApiParam(hidden = true)Map<String, String> requestData) throws Exception {
@@ -42,17 +40,15 @@ public class ServiceInstancesController extends Common {
         String spaceGuid = stringNullCheck(requestData.get("spaceGuid"));
         String credentials = stringNullCheck(requestData.get("credentials"));
 
-        if ( name.isEmpty() || spaceGuid.isEmpty() || credentials.isEmpty() ){ // 차후 수정
+        if ( name.isEmpty() || spaceGuid.isEmpty()){ // 차후 수정
 
             throw new NullPointerException("NULL 발생");
         }
-        Map<String, ? extends Object> entries ;
+        Map<String, ? extends Object> entries = null;
 
-        //try {
+        if (!credentials.isEmpty()) {
             entries = new ObjectMapper().readValue(credentials, Map.class);
-        //}catch (JsonProcessingException jpe){
-        //    throw jpe;
-        //}
+        }
         ServiceInstance serviceInstance = new ServiceInstance();
         serviceInstance.setName(name);
         serviceInstance.setCredentials(entries);
@@ -71,5 +67,25 @@ public class ServiceInstancesController extends Common {
         Optional<String> result = serviceInstancesServiceV3.delete(serviceInstanceGuid);
         map.put("resultMessage", result);
         return map;
+    }
+
+    @ApiOperation(value = "ServiceInstance update")
+    @PatchMapping(value = {Constants.URI_SIDECAR_API_PREFIX + "/serviceInstances/{serviceInstanceGuid}"})
+    public UpdateServiceInstanceResponse update(@PathVariable @ApiParam(value = "ServiceInstance GUID", required = true)String serviceInstanceGuid, @RequestBody @ApiParam(hidden = true)Map<String, String> requestData) throws Exception {
+        String credentials = stringNullCheck(requestData.get("credentials"));
+
+        Map<String, ? extends Object> entries = null;
+        if (!credentials.isEmpty()) {
+            entries = new ObjectMapper().readValue(credentials, Map.class);
+        }else {
+            entries = new ObjectMapper().readValue("{\"\": \"\"}", Map.class);
+        }
+
+        ServiceInstance serviceInstance = new ServiceInstance();
+        serviceInstance.setId(serviceInstanceGuid);
+        serviceInstance.setCredentials(entries);
+
+        UpdateServiceInstanceResponse response = serviceInstancesServiceV3.update(serviceInstance);
+        return response;
     }
 }

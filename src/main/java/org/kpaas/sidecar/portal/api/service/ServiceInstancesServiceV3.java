@@ -73,7 +73,14 @@ public class ServiceInstancesServiceV3 extends Common {
         return cloudFoundryClient(tokenProvider()).serviceInstancesV3().unshare(UnshareServiceInstanceRequest.builder().build()).block();
     }
 
-    public UpdateServiceInstanceResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().update(UpdateServiceInstanceRequest.builder().build()).block();
+    public UpdateServiceInstanceResponse update(ServiceInstance serviceInstance) {
+        return cloudFoundryClient(tokenProvider())
+                .serviceInstancesV3()
+                .update(UpdateServiceInstanceRequest
+                        .builder()
+                        .serviceInstanceId(serviceInstance.getId())
+                        .credentials(serviceInstance.getCredentials())
+                        .build())
+                .block();
     }
 }

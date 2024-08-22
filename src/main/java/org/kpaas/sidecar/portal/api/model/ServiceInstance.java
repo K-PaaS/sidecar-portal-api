@@ -49,7 +49,7 @@ public class ServiceInstance extends org.cloudfoundry.client.v3.serviceinstances
     @Nullable
     public List<String> tags;
 
-    @JsonProperty("credentails")
+    @JsonProperty("credentials")
     @Nullable
     public Map<String, ? extends Object> credentials;
 
