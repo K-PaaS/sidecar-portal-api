@@ -32,15 +32,15 @@ public class ServiceBindingsServiceV3 extends Common {
     }
 
     public GetServiceBindingResponse get(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().get(GetServiceBindingRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().get(GetServiceBindingRequest.builder().serviceBindingId(guid).build()).block();
     }
 
     public GetServiceBindingDetailsResponse getDetails(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().getDetails(GetServiceBindingDetailsRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().getDetails(GetServiceBindingDetailsRequest.builder().serviceBindingId(guid).build()).block();
     }
 
     public GetServiceBindingParametersResponse getParameters(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().getParameters(GetServiceBindingParametersRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().getParameters(GetServiceBindingParametersRequest.builder().serviceBindingId(guid).build()).block();
     }
 
     public ListServiceBindingsResponse list(List<String> appGuids, List<String> appNames, List<String> serviceInstanceGuids, List<String> serviceInstanceNames, List<String> servicePlanGuids, List<String> servicePlanNames) {
@@ -66,6 +66,6 @@ public class ServiceBindingsServiceV3 extends Common {
     }
 
     public UpdateServiceBindingResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().update(UpdateServiceBindingRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceBindingsV3().update(UpdateServiceBindingRequest.builder().serviceBindingId(guid).build()).block();
     }
 }

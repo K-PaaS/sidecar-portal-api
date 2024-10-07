@@ -39,7 +39,7 @@ public class ServiceInstancesServiceV3 extends Common {
     }
 
     public GetManagedServiceParametersResponse getManagedServiceParameters(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getManagedServiceParameters(GetManagedServiceParametersRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().getManagedServiceParameters(GetManagedServiceParametersRequest.builder().serviceInstanceId(guid).build()).block();
     }
 
     public GetUserProvidedCredentialsResponse getUserProvidedCredentials(String guid) {
@@ -62,15 +62,16 @@ public class ServiceInstancesServiceV3 extends Common {
     }
 
     public ListSharedSpacesRelationshipResponse listSharedSpacesRelationship(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().listSharedSpacesRelationship(ListSharedSpacesRelationshipRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().listSharedSpacesRelationship(ListSharedSpacesRelationshipRequest.builder().serviceInstanceId(guid).build()).block();
     }
 
     public ShareServiceInstanceResponse share(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().share(ShareServiceInstanceRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().share(ShareServiceInstanceRequest.builder().serviceInstanceId(guid).build()).block();
     }
 
     public Void unshare(String guid) {
-        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().unshare(UnshareServiceInstanceRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).serviceInstancesV3().unshare(UnshareServiceInstanceRequest.builder().serviceInstanceId(guid)
+                .spaceId(guid).build()).block();
     }
 
     public UpdateServiceInstanceResponse update(ServiceInstance serviceInstance) {

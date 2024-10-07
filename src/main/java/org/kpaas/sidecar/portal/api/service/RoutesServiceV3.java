@@ -135,10 +135,10 @@ public class RoutesServiceV3 extends Common {
     }
 
     public ReplaceRouteDestinationsResponse replaceDestinations(String guid) {
-        return cloudFoundryClient(tokenProvider()).routesV3().replaceDestinations(ReplaceRouteDestinationsRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).routesV3().replaceDestinations(ReplaceRouteDestinationsRequest.builder().routeId(guid).build()).block();
     }
 
     public UpdateRouteResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).routesV3().update(UpdateRouteRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).routesV3().update(UpdateRouteRequest.builder().routeId(guid).build()).block();
     }
 }

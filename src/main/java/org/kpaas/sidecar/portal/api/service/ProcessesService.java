@@ -72,7 +72,8 @@ public class ProcessesService extends Common {
     }
 
     public Void terminateInstance(String guid) {
-        return cloudFoundryClient(tokenProvider()).processes().terminateInstance(TerminateProcessInstanceRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).processes().terminateInstance(TerminateProcessInstanceRequest.builder().index("index")
+                .processId(guid).build()).block();
     }
 
     public UpdateProcessResponse update(String processGuid, Process process) {

@@ -9,11 +9,12 @@ import java.util.List;
 @Service
 public class TasksService extends Common {
     public CancelTaskResponse cancel(String guid) {
-        return cloudFoundryClient(tokenProvider()).tasks().cancel(CancelTaskRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).tasks().cancel(CancelTaskRequest.builder().taskId(guid).build()).block();
     }
 
     public CreateTaskResponse create(String guid) {
-        return cloudFoundryClient(tokenProvider()).tasks().create(CreateTaskRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).tasks().create(CreateTaskRequest.builder().applicationId(guid)
+                .command(guid).build()).block();
     }
 
     public GetTaskResponse get(String guid) {

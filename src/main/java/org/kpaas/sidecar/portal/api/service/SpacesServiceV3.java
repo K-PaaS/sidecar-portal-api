@@ -22,7 +22,7 @@ public class SpacesServiceV3 extends Common {
     }
 
     public AssignSpaceIsolationSegmentResponse assignIsolationSegment(String guid) {
-        return cloudFoundryClient(tokenProvider()).spacesV3().assignIsolationSegment(AssignSpaceIsolationSegmentRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).spacesV3().assignIsolationSegment(AssignSpaceIsolationSegmentRequest.builder().spaceId(guid).build()).block();
     }
 
     public CreateSpaceResponse create(Space space) {
@@ -47,7 +47,7 @@ public class SpacesServiceV3 extends Common {
     }
 
     public String deleteUnmappedRoutes(String guid) {
-        return cloudFoundryClient(tokenProvider()).spacesV3().deleteUnmappedRoutes(DeleteUnmappedRoutesRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).spacesV3().deleteUnmappedRoutes(DeleteUnmappedRoutesRequest.builder().spaceId(guid).build()).block();
     }
 
     public GetSpaceResponse get(String guid) {
@@ -61,7 +61,7 @@ public class SpacesServiceV3 extends Common {
     }
 
     public GetSpaceIsolationSegmentResponse getIsolationSegment(String guid) {
-        return cloudFoundryClient(tokenProvider()).spacesV3().getIsolationSegment(GetSpaceIsolationSegmentRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).spacesV3().getIsolationSegment(GetSpaceIsolationSegmentRequest.builder().spaceId(guid).build()).block();
     }
 
     public ListSpacesResponse list(List<String> orgGuids, List<String> names) {
@@ -79,6 +79,6 @@ public class SpacesServiceV3 extends Common {
     }
 
     public UpdateSpaceResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).spacesV3().update(UpdateSpaceRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).spacesV3().update(UpdateSpaceRequest.builder().spaceId(guid).build()).block();
     }
 }

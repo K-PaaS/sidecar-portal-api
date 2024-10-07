@@ -17,7 +17,12 @@ public class DeploymentsServiceV3 extends Common {
     }
 
     public CreateDeploymentResponse create(String guid) {
-        return cloudFoundryClient(tokenProvider()).deploymentsV3().create(CreateDeploymentRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider())
+                .deploymentsV3().create(CreateDeploymentRequest.builder()
+                        .relationships(DeploymentRelationships.builder()
+                                .build())
+                        .build())
+                .block();
     }
 
     public GetDeploymentResponse get(String guid) {

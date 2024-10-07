@@ -56,7 +56,7 @@ public class RolesServiceV3 extends Common {
     }
 
     public GetRoleResponse get(String guid) {
-        return cloudFoundryClient(tokenProvider()).rolesV3().get(GetRoleRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).rolesV3().get(GetRoleRequest.builder().roleId(guid).build()).block();
     }
 
     public ListRolesResponse list(List<String> orgGuids, List<String> spaceGuids, List<String> usernames, List<RoleType> types, List<String> roleGuids) {

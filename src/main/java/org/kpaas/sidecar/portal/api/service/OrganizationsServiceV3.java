@@ -1,5 +1,6 @@
 package org.kpaas.sidecar.portal.api.service;
 
+import org.cloudfoundry.client.v3.Relationship;
 import org.cloudfoundry.client.v3.organizations.*;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.model.Organization;
@@ -9,8 +10,13 @@ import java.util.List;
 
 @Service
 public class OrganizationsServiceV3 extends Common {
-    public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String guid) {
-        return cloudFoundryClient(tokenProvider()).organizationsV3().assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
+    public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String organizationId, String isolationSegmentId) {
+        return cloudFoundryClient(tokenProvider()).organizationsV3().assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder()
+                .organizationId(organizationId)
+                .data(Relationship.builder()
+                        .id(isolationSegmentId)
+                .build())
+                .block();
     }
 
     public CreateOrganizationResponse create(Organization org) {
@@ -54,11 +60,12 @@ public class OrganizationsServiceV3 extends Common {
     }
 
     public GetOrganizationDefaultIsolationSegmentResponse getDeafultIsolationSegment(String guid) {
-        return cloudFoundryClient(tokenProvider()).organizationsV3().getDefaultIsolationSegment(GetOrganizationDefaultIsolationSegmentRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).organizationsV3().getDefaultIsolationSegment(GetOrganizationDefaultIsolationSegmentRequest.builder().organizationId(guid)
+                .build()).block();
     }
 
     public GetOrganizationUsageSummaryResponse getUsageSummary(String guid) {
-        return cloudFoundryClient(tokenProvider()).organizationsV3().getUsageSummary(GetOrganizationUsageSummaryRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).organizationsV3().getUsageSummary(GetOrganizationUsageSummaryRequest.builder().organizationId(guid).build()).block();
     }
 
     public ListOrganizationsResponse list(List<String> names) {
@@ -89,6 +96,6 @@ public class OrganizationsServiceV3 extends Common {
     }
 
     public UpdateOrganizationResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).organizationsV3().update(UpdateOrganizationRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).organizationsV3().update(UpdateOrganizationRequest.builder().organizationId(guid).build()).block();
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class DomainsServiceV3 extends Common {
     public CheckReservedRoutesResponse checkReservedRoutes(String guid) {
-        return cloudFoundryClient(tokenProvider()).domainsV3().checkReservedRoutes(CheckReservedRoutesRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).domainsV3().checkReservedRoutes(CheckReservedRoutesRequest.builder().domainId(guid).build()).block();
     }
 
     public CreateDomainResponse create(Domain domain) {
@@ -58,14 +58,15 @@ public class DomainsServiceV3 extends Common {
     }
 
     public ShareDomainResponse share(String guid) {
-        return cloudFoundryClient(tokenProvider()).domainsV3().share(ShareDomainRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).domainsV3().share(ShareDomainRequest.builder().domainId(guid).build()).block();
     }
 
     public Void unshare(String guid) {
-        return cloudFoundryClient(tokenProvider()).domainsV3().unshare(UnshareDomainRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).domainsV3().unshare(UnshareDomainRequest.builder().domainId(guid)
+                .organizationId(guid).build()).block();
     }
 
     public UpdateDomainResponse update(String guid) {
-        return cloudFoundryClient(tokenProvider()).domainsV3().update(UpdateDomainRequest.builder().build()).block();
+        return cloudFoundryClient(tokenProvider()).domainsV3().update(UpdateDomainRequest.builder().domainId(guid).build()).block();
     }
 }
