@@ -42,7 +42,6 @@ spring:
 sidecar:
   apiHost: ${SIDECAR_APIHOST}
   #test를 위한 Token 설정
-  token: ${SIDECAR_TOKEN}
   #tokenKind: "clientcert"
   tokenKind: "bearer"
   rootNamespace: ${SIDECAR_ROOTNAMESPACE}
@@ -61,10 +60,10 @@ sidecar:
 #logging:
 #  level:
 #    cloudfoundry-client: debug
-logging:
-  level:
-    cloudfoundry-client:
-      wire: trace
+#logging:
+#  level:
+#    cloudfoundry-client:
+#      wire: trace
 
 
 #############
