@@ -50,9 +50,14 @@ public class IsolationSegmentsService extends Common {
         return cloudFoundryClient(tokenProvider()).isolationSegments().listSpacesRelationship(ListIsolationSegmentSpacesRelationshipRequest.builder().isolationSegmentId(guid).build()).block();
     }
 
-    public String removeOrganizationEntitlement(String guid) {
-        return cloudFoundryClient(tokenProvider()).isolationSegments().removeOrganizationEntitlement(RemoveIsolationSegmentOrganizationEntitlementRequest.builder().isolationSegmentId(guid)
-                .organizationId(guid).build()).block().toString();
+    public Void removeOrganizationEntitlement(String guid) {
+        return cloudFoundryClient(tokenProvider())
+                .isolationSegments()
+                .removeOrganizationEntitlement(RemoveIsolationSegmentOrganizationEntitlementRequest.builder()
+                        .isolationSegmentId(guid)
+                        .organizationId(guid)
+                        .build())
+                .block();
     }
 
     public UpdateIsolationSegmentResponse update(String guid) {

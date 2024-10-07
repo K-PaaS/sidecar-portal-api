@@ -77,6 +77,9 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // error : Mockito cannot mock/spy because: -final class -> add
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
 }
 
 tasks.named('bootBuildImage') {

@@ -47,7 +47,7 @@ public class SidecarRestTemplateService extends org.container.platform.api.commo
         // SIDECAR API
         if(TARGET_SIDECAR_API.equals(reqApi)) {
             Assert.notNull(params, "Null parameter");
-            Assert.notNull(params.getClusterToken(), "Null parameter(ClusterToken)");
+            Assert.hasText(params.getClusterToken(), "Null or empty ClusterToken");
 
             this.baseUrl = ((SidecarPropertyService)propertyService).getSidecarApiUrl();
             this.base64Authorization = "bearer " + params.getClusterToken();

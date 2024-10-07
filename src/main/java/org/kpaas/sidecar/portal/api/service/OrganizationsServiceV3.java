@@ -11,11 +11,13 @@ import java.util.List;
 @Service
 public class OrganizationsServiceV3 extends Common {
     public AssignOrganizationDefaultIsolationSegmentResponse assignDefaultIsolationSegment(String organizationId, String isolationSegmentId) {
-        return cloudFoundryClient(tokenProvider()).organizationsV3().assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder()
-                .organizationId(organizationId)
-                .data(Relationship.builder()
-                        .id(isolationSegmentId)
-                .build())
+        return cloudFoundryClient(tokenProvider()).organizationsV3()
+                .assignDefaultIsolationSegment(AssignOrganizationDefaultIsolationSegmentRequest.builder()
+                        .organizationId(organizationId)
+                        .data(Relationship.builder()
+                                .id(isolationSegmentId)
+                                .build())
+                        .build())
                 .block();
     }
 
