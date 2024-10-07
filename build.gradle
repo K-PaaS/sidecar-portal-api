@@ -76,7 +76,13 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpcore'
     implementation 'org.apache.httpcomponents:httpclient'
 
+    // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
+    implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '3.0.0'
+    //<sunny> https://mvnrepository.com/artifact/io.gsonfire/gson-fire
+    implementation group: 'io.gsonfire', name: 'gson-fire', version: '1.8.5'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('junit:junit:4.13.1')
 }
 
 tasks.named('bootBuildImage') {
