@@ -15,26 +15,11 @@ import java.util.List;
 
 @Service
 public class Common {
-    @Value("${minio.url}")
-    protected String afMinioUrl;
-
-    @Value("${minio.accessKey}")
-    protected String afMinioAccessKey;
-
-    @Value("${minio.secretkey}")
-    protected String afMinioSecretkey;
-
-    @Value("${minio.bucket}")
-    protected String afMinioBucket;
-
     @Value("${sidecar.apiHost}")
     public String apiHost;
 
     @Value("${sidecar.tokenKind}")
     public String tokenKind;
-
-    @Value("${sidecar.token}")
-    public String token;
 
     public DefaultConnectionContext defaultConnectionContext;
 

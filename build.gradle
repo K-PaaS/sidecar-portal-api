@@ -52,7 +52,7 @@ dependencies {
     compileOnly 'org.immutables:value:2.9.3'
 
     // CP PORTAL API
-    implementation files('libs/container-platform-api-plain.jar')
+    implementation files('libs/container-platform-api-v1.5.1-plain.jar')
     implementation "io.jsonwebtoken:jjwt:${jjwtVersion}"
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation 'org.springframework.retry:spring-retry'
