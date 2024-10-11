@@ -1,9 +1,9 @@
 ---
 applications:
-  - name: portal-api
+  - name: sidecar-portal-api
     memory: 1500MB
     disk: 2G
-    instances: 1
+    instances: 3
     env:
       server_port: 8080
 
