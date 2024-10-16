@@ -116,7 +116,13 @@ public class SidecarController extends Common {
                 .build());
         // 2. App 생성
         appGuid = appServiceV3.create(app).getId();
-
+        
+        Process process = new Process();
+        process.setDiskInMb(Integer.valueOf(disk));
+        process.setMemoryInMb(Integer.valueOf(memory));
+        process.setInstances(null);
+        processesService.scale("cf-proc-" + appGuid + "-web", process);
+        
         // 3. ROUTE 생성
         routeGuid = routesServiceV3.create(route).getId();
 
@@ -161,11 +167,6 @@ public class SidecarController extends Common {
                             //앱 실행버튼이 on일때
                             if (true) {
                                 // 8. 앱 시작
-                                Process process = new Process();
-                                process.setDiskInMb(Integer.valueOf(disk));
-                                process.setMemoryInMb(Integer.valueOf(memory));
-                                process.setInstances(null);
-                                processesService.scale("cf-proc-" + appGuid + "-web", process, tokenProvider);
                                 appServiceV3.start(appGuid, tokenProvider);
                             }
                         } catch (Exception e) {
