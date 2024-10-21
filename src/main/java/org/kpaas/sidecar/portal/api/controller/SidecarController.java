@@ -22,6 +22,7 @@ import org.kpaas.sidecar.portal.api.model.Route;
 import org.kpaas.sidecar.portal.api.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,7 +81,7 @@ public class SidecarController extends Common {
     String dropletGuid;
 
 
-    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/app/push", method = RequestMethod.POST, headers = ("content-type=multipart/form-data"))
+    @RequestMapping(consumes = MediaType.ALL_VALUE, value = Constants.URI_SIDECAR_API_PREFIX + "/app/push", method = RequestMethod.POST, headers = ("content-type=multipart/form-data"))
     public void push(@RequestPart @ApiParam(hidden = true) Map<String, String> requestData, @RequestPart(value = "multipartFile",required = true) MultipartFile multipartFile) throws Exception {
         String name = stringNullCheck(requestData.get("name"));
         String spaceGuid = stringNullCheck(requestData.get("spaceGuid"));
@@ -116,6 +117,12 @@ public class SidecarController extends Common {
                 .build());
         // 2. App 생성
         appGuid = appServiceV3.create(app).getId();
+
+        Process process = new Process();
+        process.setDiskInMb(Integer.valueOf(disk));
+        process.setMemoryInMb(Integer.valueOf(memory));
+        process.setInstances(null);
+        processesService.scale("cf-proc-" + appGuid + "-web", process);
 
         // 3. ROUTE 생성
         routeGuid = routesServiceV3.create(route).getId();
@@ -161,11 +168,6 @@ public class SidecarController extends Common {
                             //앱 실행버튼이 on일때
                             if (true) {
                                 // 8. 앱 시작
-                                Process process = new Process();
-                                process.setDiskInMb(Integer.valueOf(disk));
-                                process.setMemoryInMb(Integer.valueOf(memory));
-                                process.setInstances(null);
-                                processesService.scale("cf-proc-" + appGuid + "-web", process, tokenProvider);
                                 appServiceV3.start(appGuid, tokenProvider);
                             }
                         } catch (Exception e) {
