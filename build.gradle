@@ -76,7 +76,22 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpcore'
     implementation 'org.apache.httpcomponents:httpclient'
 
+    // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
+    implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '3.0.0'
+    // https://mvnrepository.com/artifact/io.gsonfire/gson-fire
+    implementation group: 'io.gsonfire', name: 'gson-fire', version: '1.8.5'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Add junit Library
+    testImplementation('junit:junit:4.13.1')
+
+    // File -> MultipartFile
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
 }
 
 tasks.named('bootBuildImage') {
