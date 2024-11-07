@@ -1,9 +1,11 @@
 package org.kpaas.sidecar.portal.api.service;
 
 import org.cloudfoundry.client.v3.organizations.*;
+
 import org.kpaas.sidecar.portal.api.common.model.Params;
 import org.kpaas.sidecar.portal.api.login.AuthUtil;
 import org.kpaas.sidecar.portal.api.model.Organization;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.DisplayName;
@@ -11,9 +13,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.junit.Test;
 import org.junit.Assert;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,7 +32,7 @@ import static org.mockito.Mockito.when;
  *
  * @author woogie
  * @version 1.0
- * @since 2024.10.10
+ * @since 2024.11.07
  **/
 
 @RunWith(SpringRunner.class)
@@ -63,6 +67,7 @@ public class OrganizationsServiceV3Test {
     private String spaceUserToken;
 
     Params params;
+
     private static Organization organization = null;
 
     @Before
@@ -70,7 +75,7 @@ public class OrganizationsServiceV3Test {
         MockitoAnnotations.initMocks(this);
 
         organization = new Organization();
-        organization.setName("test-org");
+        organization.setName("Organization-org");
 
         params = new Params();
         params.setClusterToken(adminToken);
@@ -102,8 +107,21 @@ public class OrganizationsServiceV3Test {
     @Test
     @DisplayName("List Organization")
     public void test3_listOrganizations() throws Exception {
-        ListOrganizationsResponse result = organizationsServiceV3.list(null);
-        Assert.assertTrue(result.getPagination().getTotalResults() > 0);
+        // 생성한 Organization name 추가
+        List<String> names = new ArrayList<>();
+        names.add(organization.getName());
+
+        // 생성한 Organization list 결과 가져오기
+        ListOrganizationsResponse orgLists = organizationsServiceV3.list(names);
+
+        // 생성한 Organization list 갯수 검증
+        Assert.assertTrue(orgLists.getPagination().getTotalResults() > 0);
+
+        // 전체 Organization list 결과 가져오기
+            // ListOrganizationsResponse result = organizationsServiceV3.list(null);
+
+        // 전체 Organization list 갯수 검증
+            // Assert.assertTrue(result.getPagination().getTotalResults() > 0);
     }
 
     @Test
@@ -114,6 +132,7 @@ public class OrganizationsServiceV3Test {
         ListOrganizationsResponse lists = organizationsServiceV3.list(names);
 
         GetOrganizationResponse orgResult = organizationsServiceV3.get(lists.getResources().get(0).getId());
+
         GetOrganizationDefaultDomainResponse result = organizationsServiceV3.getDefaultDomain(orgResult.getId());
         Assert.assertNotNull(result.getId());
     }

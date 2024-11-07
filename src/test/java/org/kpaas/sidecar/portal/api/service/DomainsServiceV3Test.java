@@ -3,21 +3,25 @@ package org.kpaas.sidecar.portal.api.service;
 import org.cloudfoundry.client.v3.domains.CreateDomainResponse;
 import org.cloudfoundry.client.v3.domains.GetDomainResponse;
 import org.cloudfoundry.client.v3.domains.ListDomainsResponse;
+
 import org.kpaas.sidecar.portal.api.common.model.Params;
 import org.kpaas.sidecar.portal.api.login.AuthUtil;
 import org.kpaas.sidecar.portal.api.model.Domain;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.FixMethodOrder;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.TestPropertySource;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -30,12 +34,13 @@ import static org.mockito.Mockito.when;
  *
  * @author woogie
  * @version 1.0
- * @since 2024.10.10
+ * @since 2024.11.07
  **/
 
 @RunWith(SpringRunner.class)
 @TestPropertySource("classpath:application.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DisplayName("DomainsServiceV3 Test")
 public class DomainsServiceV3Test {
     @InjectMocks
     DomainsServiceV3 domainServiceV3;
@@ -74,7 +79,7 @@ public class DomainsServiceV3Test {
         MockitoAnnotations.initMocks(this);
 
         domain = new Domain();
-        domain.setName("unit-test.com");
+        domain.setName("domain.com");
 
         params = new Params();
         params.setClusterToken(adminToken);
@@ -97,7 +102,8 @@ public class DomainsServiceV3Test {
     public void test2_getDomains() throws Exception {
         List<String> names = new ArrayList<>();
         names.add(domain.getName());
-        ListDomainsResponse lists = domainServiceV3.list( names , null);
+
+        ListDomainsResponse lists = domainServiceV3.list(names , null);
 
         GetDomainResponse result = domainServiceV3.get(lists.getResources().get(0).getId());
         Assert.assertNotNull(result.getName());
@@ -106,8 +112,21 @@ public class DomainsServiceV3Test {
     @Test
     @DisplayName("List Domains")
     public void test3_listDomains() throws Exception {
-        ListDomainsResponse result = domainServiceV3.list(null, null);
+        // 생성한 Domain name 추가
+        List<String> names = new ArrayList<>();
+        names.add(domain.getName());
+
+        // 생성한 Domain list 결과 가져오기
+        ListDomainsResponse result = domainServiceV3.list(names, null);
+
+        // 생성한 Domain list 갯수 검증
         Assert.assertTrue(result.getPagination().getTotalResults() > 0);
+
+            // 전체 Domain list 결과 가져오기
+            // ListDomainsResponse result = domainServiceV3.list(null, null);
+
+            // 전체 Domain list 갯수 검증
+            // Assert.assertTrue(result.getPagination().getTotalResults() > 0);
     }
 
     @Test
@@ -115,7 +134,7 @@ public class DomainsServiceV3Test {
     public void test4_deleteDomain() throws Exception {
         List<String> names = new ArrayList<>();
         names.add(domain.getName());
-        ListDomainsResponse lists = domainServiceV3.list( names , null);
+        ListDomainsResponse lists = domainServiceV3.list(names , null);
 
         String result = domainServiceV3.delete(lists.getResources().get(0).getId());
         Assert.assertTrue(result.contains(lists.getResources().get(0).getId()));
