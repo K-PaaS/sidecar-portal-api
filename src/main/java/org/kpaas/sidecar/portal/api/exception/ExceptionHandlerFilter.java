@@ -37,12 +37,14 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
     private void setErrorResponse(HttpServletResponse response, Exception ex){
         ObjectMapper objectMapper = new ObjectMapper();
-        if (ex.getClass().isInstance(CommonStatusCodeException.class)){
+        //if (ex.getClass().isInstance(CommonStatusCodeException.class)){
+        if (ex instanceof CommonStatusCodeException){
             ResultStatus resultStatus = null;
             for (CommonStatusCode code : CommonStatusCode.class.getEnumConstants()) {
-                if (ex.getMessage().contains(Integer.toString(code.getCode()))) {
+                if (((CommonStatusCodeException) ex).getErrorCode().contains(Integer.toString(code.getCode()))) {
                     resultStatus = new ResultStatus(Constants.RESULT_STATUS_FAIL, code.getMsg(),
                             code.getCode(), code.getMsg());
+                    response.setStatus(CommonStatusCode.UNAUTHORIZED.getCode());
                 }
             }
             if (resultStatus == null){

@@ -1,6 +1,8 @@
 package org.kpaas.sidecar.portal.api.login;
 
 import org.container.platform.api.accessInfo.AccessTokenService;
+import org.container.platform.api.common.model.CommonStatusCode;
+import org.container.platform.api.exception.CommonStatusCodeException;
 import org.container.platform.api.login.support.PortalGrantedAuthority;
 import org.kpaas.sidecar.portal.api.common.Constants;
 import org.kpaas.sidecar.portal.api.common.SidecarPropertyService;
@@ -118,9 +120,28 @@ public class AuthUtil {//extends org.container.platform.api.login.JwtUtil {
                 }
             }
         }
-        Whoami whoami = whoami(params);
-        if (AUTH_SUPER_ADMIN.equals(params.getUserType()) || whoami.getName().contains(params.getUserId()) || whoami.getName().contains(params.getUserAuthId())){
-            params.setSidecarStatus(Constants.SidecarStatus.ACTIVE);
+        //Whoami whoami = whoami(params);
+        //if (AUTH_SUPER_ADMIN.equals(params.getUserType()) || whoami.getName().contains(params.getUserId()) || whoami.getName().contains(params.getUserAuthId())){
+        //    params.setSidecarStatus(Constants.SidecarStatus.ACTIVE);
+        //}
+        try {
+            Whoami whoami = whoami(params);
+            if (AUTH_SUPER_ADMIN.equals(params.getUserType()) || whoami.getName().contains(params.getUserId()) || whoami.getName().contains(params.getUserAuthId())) {
+                params.setSidecarStatus(Constants.SidecarStatus.ACTIVE);
+            }
+        } catch (Exception ex){
+            if (ex.getMessage().contains(Integer.toString(CommonStatusCode.UNAUTHORIZED.getCode()) )) {
+                /*params.getRoles().add(new SimpleGrantedAuthority("INACTIVE_USER"));
+                UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        authentication.getPrincipal(), null, params.getRoles());
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);*/
+
+                CommonStatusCodeException csex = new CommonStatusCodeException( Integer.toString(CommonStatusCode.UNAUTHORIZED.getCode())
+                        , "Sidecar.whoami "+CommonStatusCode.UNAUTHORIZED.getMsg());
+                throw csex;
+            }
+            throw ex;
         }
 
         return params;

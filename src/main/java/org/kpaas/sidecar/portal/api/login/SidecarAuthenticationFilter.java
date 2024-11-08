@@ -38,7 +38,8 @@ public class SidecarAuthenticationFilter extends OncePerRequestFilter {//extends
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        if (request.getRequestURI().contains(Constants.URI_SIDECAR_API_PREFIX)) {
+        if (!request.getRequestURI().contains(Constants.URI_LOGIN) && !request.getRequestURI().contains(Constants.URI_SIGN_UP)){
+      //if (request.getRequestURI().contains(Constants.URI_SIDECAR_API_PREFIX)) {
             try {
                 Params params = authUtil.getSidecarRoles();
 
