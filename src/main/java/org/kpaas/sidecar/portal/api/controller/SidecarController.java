@@ -14,13 +14,16 @@ import org.cloudfoundry.client.v3.servicebindings.ServiceBindingResource;
 import org.cloudfoundry.reactor.TokenProvider;
 import org.kpaas.sidecar.portal.api.common.Common;
 import org.kpaas.sidecar.portal.api.common.Constants;
+import org.kpaas.sidecar.portal.api.common.SidecarPropertyService;
 import org.kpaas.sidecar.portal.api.common.SidecarRestTemplateService;
+import org.kpaas.sidecar.portal.api.common.model.Params;
 import org.kpaas.sidecar.portal.api.model.Application;
 import org.kpaas.sidecar.portal.api.model.ApplicationService;
 import org.kpaas.sidecar.portal.api.model.Process;
 import org.kpaas.sidecar.portal.api.model.Route;
 import org.kpaas.sidecar.portal.api.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -79,6 +82,10 @@ public class SidecarController extends Common {
     String packageGuid;
     String buildGuid;
     String dropletGuid;
+
+    @Autowired
+    @Qualifier("sidecarPropertyService")
+    private SidecarPropertyService propertyService;
 
 
     @RequestMapping(consumes = MediaType.ALL_VALUE, value = Constants.URI_SIDECAR_API_PREFIX + "/app/push", method = RequestMethod.POST, headers = ("content-type=multipart/form-data"))
@@ -340,5 +347,25 @@ public class SidecarController extends Common {
             services.put(key, decodeValue);
         }
         return services;
+    }
+
+
+    @RequestMapping(value = Constants.URI_SIDECAR_API_PREFIX + "/rolebindings/myroles", method = RequestMethod.GET)
+    public List<String> getMyRoles (@RequestParam(required = true) @ApiParam(value = "namespaceGuid GUID", required = true)String namespaceGuid) throws Exception {
+        Params params = authUtil.sidecarAuth();
+        String reqUrl = "/apis/rbac.authorization.k8s.io/v1/namespaces/" +namespaceGuid+ "/rolebindings";
+        List<Map> namespaceRoles;
+        namespaceRoles = ((List<Map>) restTemplateService.send(org.container.platform.api.common.Constants.TARGET_CP_MASTER_API, reqUrl, HttpMethod.GET, null, Map.class, params).get("items"));
+        List<String> roles = new ArrayList<>();
+        String userAuthId = params.getUserAuthId();
+        if (params.getUserType().equals("SUPER_ADMIN")){
+            userAuthId = propertyService.getCpPortalAdminName();
+        }
+        for(Map el : namespaceRoles){
+            if ( ((Map)((List<Map>) el.get("subjects")).get(0)).get("name").equals(userAuthId) ){
+                roles.add((String) ((Map) el.get("roleRef")).get("name"));
+            }
+        }
+        return roles;
     }
 }
