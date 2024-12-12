@@ -2,7 +2,7 @@ package org.kpaas.sidecar.portal.api.common;
 
 public class Constants extends org.container.platform.api.common.Constants{
 
-    public static final String TARGET_SIDECAR_API = "https://api.paas-ta-dev06.kr";
+    public static final String TARGET_SIDECAR_API = "sidecarApi";
     public static final String URI_SIDECAR_API_WHOAMI = "/whoami";
     public static final String URI_SIDECAR_API_PREFIX = "sidecar";
     //public static final String SIDECAR_ROOT_NAMESPACE = "kpaas";
