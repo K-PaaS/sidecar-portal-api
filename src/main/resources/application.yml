@@ -280,6 +280,8 @@ cpTerraman:
   api:
     url: ${CP_PORTAL_TERRAMAN_API_URI}user
 
+cpPortal:
+  adminName: ${CP_PORTAL_ADMIN_NAME}
 
 sidecarApi:
   url: ${SIDECAR_HTTPSAPIHOST}

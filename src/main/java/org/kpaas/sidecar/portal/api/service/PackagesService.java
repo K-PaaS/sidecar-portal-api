@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class PackagesService extends Common {
@@ -105,14 +107,24 @@ public class PackagesService extends Common {
     }
 
     public UploadPackageResponse upload(String guid, MultipartFile multipartFile) throws IOException {
-        String filePath = System.getProperty("user.home") + "/" + multipartFile.getOriginalFilename();
-        //File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String originalFilename = multipartFile.getOriginalFilename();
+        int lastIndex = originalFilename.lastIndexOf('.');
+
+        String extension = originalFilename.substring(lastIndex);
+        String fileName = originalFilename.substring(0, lastIndex);
+        String filePath = System.getProperty("user.home") + "/" + fileName + "-"+ UUID.randomUUID() + extension;
+
         File file = new File(Objects.requireNonNull(filePath));
         multipartFile.transferTo(file);
-        //Resource resource = multipartFile.getResource();
-
-        //Path filepath = Paths.get(multipartFile.getResource(), multipartFile.getOriginalFilename());
-        //return cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(multipartFile.getResource().getFile().toPath()).build()).block();
-        return cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(file.toPath()).build()).block();
+        UploadPackageResponse uploadPackageResponse = cloudFoundryClient(tokenProvider()).packages().upload(UploadPackageRequest.builder().packageId(guid).bits(file.toPath()).build()).block();
+        try{
+            if (!file.delete()) {
+                throw new FileNotFoundException();
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+            throw new IOException(e);
+        }
+        return uploadPackageResponse;
     }
 }

@@ -18,4 +18,7 @@ public class SidecarPropertyService extends org.container.platform.api.common.Pr
 
     @Value("${sidecar.roles.admin}")
     private String sidecarRolesAdmin;
+
+    @Value("${cpPortal.adminName}")
+    private String cpPortalAdminName;
 }
