@@ -82,7 +82,7 @@ $ gradle build
 <br>
 
 ## 개발 환경
-K-PaaS 사이드카 Portal UI의 개발 환경은 다음과 같습니다.
+K-PaaS 사이드카 Portal API의 개발 환경은 다음과 같습니다.
 
 | Situation                      | Version |
 | ------------------------------ | ------- |
